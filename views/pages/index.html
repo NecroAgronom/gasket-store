@@ -1,0 +1,16 @@
+
+
+
+
+
+<?php foreach($data['pages'] as $page_data){ ?>
+
+
+<div style="margin : 30px; ">
+    <?php if( $page_data['is_published'] == 1 ){ ?>
+    <a href="/pages/view/<?=$page_data['alias']?>"><h3> <?=$page_data['title']?> </h3>
+    <?php } ?>
+</div>
+
+
+<?php } ?>

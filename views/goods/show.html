@@ -1,0 +1,25 @@
+
+<a href="/goods/"><button>К Каталогу</button></a>
+<?php if( !is_null($data['goods']) ){foreach( $data['goods'] as $item ){?>
+<div style=" background: #e1deff; margin: 1pc 13pc; padding: inherit; ">
+
+    <div><img hspace="25px" align="left" src="<?=$item['img_src']?>" style="width: 200px; height: 200px; border: solid; border-color: #e1deff; border-width: 1px;">
+        <p style="padding: 10px"><strong>Gasket kit for turbocharger <br><span style="font-size: 16px"><?=$item['manufactor']?> <?=$item['turbo']?></span>
+            <br>Quantity: <?=$item['quant']?> </strong></p></div>
+
+    <p style="margin:20px;"><strong>Price : <span style="font-size: 22px;"><?=$item['price']?> грн.</span></strong></p>
+    <?php if($item['quant'] > 0){ ?>
+    <form action="/goods/add/" class = "good_form" method="post" >
+        <input type="hidden"  name="id" value="<?=$item['id'] ?>" >
+        <input type="number"  min="1" max="<?=$item['quant']?>" style="width: 10%" name="quant" value="1">
+        <input type="submit" value="Add to Cart">
+    </form>
+    <?php } else { ?> Нет в наличии <?php } ?>
+
+</div>
+<?php }} else { ?> Поиск по указанному турбокомпрессору не дал результатов <?php } ?>
+
+
+<pre>
+    <?php var_dump($data['goods']); ?>
+    </pre>

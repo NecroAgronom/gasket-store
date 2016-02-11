@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?= Config::get('site_name') ?></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+
+            <a class="navbar-brand" href="/"><?= Config::get('site_name') ?></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+
+                <li><a <?php if(App::getRouter()->getController() == 'pages'){?> class="active" <?php } ?> href="/pages/" >
+                    Pages
+                    </a>
+                </li>
+
+                <li><a <?php if(App::getRouter()->getController() == 'goods'){?> class="active" <?php } ?> href="/goods/" >
+                    Goods
+                    </a>
+                </li>
+
+                <li><a <?php if(App::getRouter()->getController() == 'contacts'){?> class="active" <?php } ?>href="/contacts/">
+                    Contact us
+                    </a>
+                </li>
+                <li><a <?php if(App::getRouter()->getController() == 'cart'){?> class="active" <?php } ?>href="/cart/">
+                    Cart
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="starter-template">
+
+
+        <?php if( Session::hasFlash() ){ ?>
+        <div class="alert alert-info" role="alert">
+            <?php Session::flash(); ?>
+        </div>
+
+        <?php } ?>
+
+
+        <?= $data['content'] ?>
+    </div>
+
+</div><!-- /.container -->
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

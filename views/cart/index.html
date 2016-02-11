@@ -1,0 +1,26 @@
+
+<h3>Cart:</h3><br>
+
+
+<?php if( !is_null($data['cart_goods']) ){foreach( $data['cart_goods'] as $item ){?>
+<div style=" background: #e1deff; margin: 1pc 13pc; padding: inherit; ">
+
+    <div><img hspace="25px" align="left" src="<?=$item['img_src']?>" style="width: 200px; height: 200px; border: solid; border-color: #e1deff; border-width: 1px;">
+        <p style="padding: 10px"><strong>Gasket kit for turbocharger <br><span style="font-size: 16px"><?=$item['manufactor']?> <?=$item['turbo']?></span>
+            <br>Quantity: <?=$_SESSION['cart'][$item['id']]?> </strong></p></div>
+
+    <p style="margin:20px;"><strong>Price : <span style="font-size: 22px;"><?=$item['price']?> грн.</span></strong></p>
+    <a href="/cart/delete/<?=$item['id'] ?>"><button class="btn btn-info">Delete from Cart</button></a>
+
+
+</div>
+<?php }?><br>
+Общая сума заказа - <?=$data['sum']?> грн.<br>
+<a href="/cart/delete_all"><button class="btn btn-info">Delete All</button></a>
+<?php } else { ?>  <h3>Пусто</h3>  <?php } ?>
+
+
+
+<pre>
+    <?php var_dump($_SESSION['cart']) ?>
+</pre>
