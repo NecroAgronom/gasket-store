@@ -1,31 +1,79 @@
-<h3>Goods:</h3><br>
+<section id="goods" class="sect container cf">
+
+<h1 class="lined"> Каталог</h1>
 
 
 <form action="/goods/search" method="post">
-    <input type="text" name="turbo">
-    <input type="submit" value="Найти">
+    <div style="margin-top: 30px">
+      <p>  Поиск по номеру турбокомпрессора:</p>
+    <input type="text"  class="search form-control" style="width: 30%; display: inline" name="turbo">
+    <input type="submit" class="orange-btn"  style="width: 10%" value="Найти">
+    </div>
 </form>
 
-<?php if( !is_null($data['goods']) ){foreach( $data['goods'] as $item ){?>
-    <div style=" background: #e1deff; margin: 1pc 13pc; padding: inherit; ">
-
-         <div><img hspace="25px" align="left" src="<?=$item['img_src']?>" style="width: 200px; height: 200px; border: solid; border-color: #e1deff; border-width: 1px;">
-             <p style="padding: 10px"><strong>Gasket kit for turbocharger <br><span style="font-size: 16px"><?=$item['manufactor']?> <?=$item['turbo']?></span>
-             <br>Quantity: <?=$item['quant']?> </strong></p></div>
-
-        <p style="margin:20px;"><strong>Price : <span style="font-size: 22px;"><?=$item['price']?> грн.</span></strong></p>
-        <?php if($item['quant'] > 0){ ?>
-        <form action="/goods/add/" class = "good_form" method="post" >
-            <input type="hidden"  name="id" value="<?=$item['id'] ?>" >
-            <input type="number"  min="1" max="<?=$item['quant']?>" style="width: 10%" name="quant" value="1">
-            <input type="submit" value="Add to Cart">
-        </form>
-        <?php } else { ?> Нет в наличии <?php } ?>
-
-    </div>
-<?php }} else { ?> Поиск по указанному турбокомпрессору не дал результатов <?php } ?>
+<br><br><br>
 
 
-<pre>
-    <?php var_dump($data['goods']); ?>
-    </pre>
+
+
+<?php if($data['search']){ ?> <p style="font-size: 28px;">Результат поиска:</p> <br> <?php } ?>
+
+
+<?php if( !is_null($data['goods']) ){ ?>
+<table class="table table-striped good-table" style="width : 100%; ">
+    <tr>
+        <td style="width: 25%"><span>К</span>омплект для турбокомпрессора</td>
+        <td style="width: 20%"><span>К</span>ол-во на складе</td>
+        <td style="width: 20%"><span>Ц</span>ена</td>
+        <td style="width: 35%"></td>
+
+
+    </tr>
+    <?php foreach( $data['goods'] as $item ){?>
+    <tr>
+        <td>    <?=$item['manufactor']?> <?=$item['turbo']?></td>
+        <td><b><?=$item['quant']?></b> компл.</td>
+        <td><?=$item['price']?> грн.</td>
+        <td><?php if($item['quant'] > 0){ ?>
+
+            <div id="good-form<?=$item['id']?>">
+                <input type="hidden"  name="id" id="id<?=$item['id']?>" value="<?=$item['id']?>" >
+                <input type="hidden" name="total_quant" value="<?=$item['quant']?>">
+                <input type="number"   name="quant" id="quant<?=$item['id']?>" min="1" max="<?=$item['quant']?>"   value="1"> компл.
+                <input type="button" class="orange-btn"  value=" + В Корзину  " onclick="updateCart(document.getElementById('good-form<?=$item['id']?>'));">
+
+            </div>
+            <?php } else { ?> <b>Нет в наличии</b> <?php } ?></td>
+    </tr>
+    <?php }} elseif( is_null($data['goods']) and $data['search']) { ?><p style="text-align: center ; font-size: 28px;"><span>П</span>оиск по указанному турбокомпрессору не дал результатов</p><?php } else { ?>
+    <p style="text-align: center ; font-size: 28px;"><span>Т</span>акой страницы нет </p> <?php } ?>
+</table>
+
+
+
+
+
+
+
+
+<?php if( !is_null($data['pages']) and $data['current'] <= (end($data['pages']) + 1) ){ ?>
+
+<div id="pages-list">
+<?php if($data['current'] > 1){ $flink = $data['current'] - 1; ?> <a href="/goods/?page=<?=$flink?>#st"><b style="font-size: 24px;">&#9668;</b></a><?php } ?>
+<?php foreach ($data['pages'] as $item){ $item = $item + 1;?> <a <?php if($item == $data['current']){?> style="color : #ff7200;" <?php } ?> href="/goods/?page=<?=$item?>#st"> <?=$item?> </a>  <?php } ?>
+<?php if($data['current'] < (end($data['pages']) + 1) ){ $llink = $data['current'] + 1; ?> <a href="/goods/?page=<?=$llink?>#st"><b style="font-size: 24px;">&#9658;</b></a><?php } ?>
+</div>
+
+<?php } ?>
+
+
+
+<div id="modal_form">
+    <p style="text-align: center; font-weight: 700; font-size: 22px">Добавлено в </p>
+    <a href="/cart#st"><button class="btn" style="width: 100%"> Корзину </button></a><br><br>
+    <button class="blue-btn" id="back" style="width: 100%">НАЗАД</button>
+</div>
+<div id="overlay"></div>
+
+
+</section>

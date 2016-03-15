@@ -1,26 +1,54 @@
+<section id="cart" class="sect container cf">
 
-<h3>Cart:</h3><br>
-
-
-<?php if( !is_null($data['cart_goods']) ){foreach( $data['cart_goods'] as $item ){?>
-<div style=" background: #e1deff; margin: 1pc 13pc; padding: inherit; ">
-
-    <div><img hspace="25px" align="left" src="<?=$item['img_src']?>" style="width: 200px; height: 200px; border: solid; border-color: #e1deff; border-width: 1px;">
-        <p style="padding: 10px"><strong>Gasket kit for turbocharger <br><span style="font-size: 16px"><?=$item['manufactor']?> <?=$item['turbo']?></span>
-            <br>Quantity: <?=$_SESSION['cart'][$item['id']]?> </strong></p></div>
-
-    <p style="margin:20px;"><strong>Price : <span style="font-size: 22px;"><?=$item['price']?> грн.</span></strong></p>
-    <a href="/cart/delete/<?=$item['id'] ?>"><button class="btn btn-info">Delete from Cart</button></a>
-
-
-</div>
-<?php }?><br>
-Общая сума заказа - <?=$data['sum']?> грн.<br>
-<a href="/cart/delete_all"><button class="btn btn-info">Delete All</button></a>
-<?php } else { ?>  <h3>Пусто</h3>  <?php } ?>
+<h1 class="lined">Корзина</h1>
 
 
 
-<pre>
-    <?php var_dump($_SESSION['cart']) ?>
-</pre>
+
+
+<?php if( !is_null($data['cart_goods']) ){ ?>
+<p style="text-align: center; font-size: 22px"> Общая стоимость заказа - <b><?=$data['sum']?></b> грн. </p><br><br>
+
+<table class="table table-striped" style="width : 80%; font-size: 16px;">
+    <tr>
+        <td style="width: 35%">Комплект для турбокомпрессора</td>
+        <td style="width: 15%">Количество</td>
+        <td style="width: 15%">Цена за 1 комплект </td>
+        <td style="width: 45%"></td>
+
+
+    </tr>
+    <?php foreach( $data['cart_goods'] as $item ){?>
+    <tr>
+        <td><?=$item['manufactor']?> <?=$item['turbo']?></td>
+        <td><span id="dec-form<?=$item['id']?>">
+            <input type="hidden"  name="id"  value="<?=$item['id']?>" >
+            <input type="hidden" name="quant" value="<?=Session::get('cart')[$item['id']]?>">
+            <input type="hidden" name="total_quant" value="<?=$item['quant']?>">
+            <input type="button" class="q" style="padding-left: 12px; padding-right: 12px;" onclick="decQuant(document.getElementById('dec-form<?=$item['id']?>'));" value="-">
+        </span>
+
+            <b style="font-size: 22px;"> <?=Session::get('cart')[$item['id']]?></b>
+
+            <span id="inc-form<?=$item['id']?>">
+            <input type="hidden"  name="id"  value="<?=$item['id']?>" >
+            <input type="hidden" name="quant" value="<?=Session::get('cart')[$item['id']]?>">
+            <input type="hidden" name="total_quant" value="<?=$item['quant']?>" >
+            <input type="button" class="q" onclick="incQuant(document.getElementById('inc-form<?=$item['id']?>'));" value="+">
+
+        </span>
+        </td>
+        <td><?=$item['price']?> грн.</td>
+        <td> <a href="/cart/delete/<?=$item['id'] ?>"><button style="margin-left: 15px;" class="orange-btn">Удалить из корзины</button></a></td>
+    </tr>
+    <?php }?>
+</table>
+
+
+    <p style="text-align: center"><a href="/cart/delete_all"><button class="blue-btn" style=" font-size: 26px; padding: 8px; width: 30%">Очистить</button></a> <a href="/checkout#st"><button class="orange-btn" style="border-radius: 6px; font-size: 26px; padding: 8px; width: 30%">Оформить </button></a></p>
+
+
+<?php } else { ?> <p style="text-align: center"> <span style="font-size: 26px;">Тут пока пусто</span> <br> <br><a href="/goods#st"><button class="orange-btn" style="font-size: 18px;font-weight: 500; padding: 15px; width: 300px">ПЕРЕЙТИ К КАТАЛОГУ</button></a> </p> <?php } ?>
+
+
+</section>

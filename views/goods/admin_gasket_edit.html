@@ -1,0 +1,25 @@
+<h3>Редактирование</h3><br>
+
+<form method="post" action="">
+
+    <input type="hidden" name="id" value=" <?=$data['gasket']['id']?> "/>
+
+    <div class="form-group">
+        <label for="gasket">Прокладка</label>
+        <input type="text" id="gasket" name="gasket" value="<?=$data['gasket']['gasket']?>" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="quant">Количество</label>
+        <input type="text" id="quant" name="quant" value="<?=$data['gasket']['quant']?>" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="price">Цена</label>
+        <input type="text" id="price" name="price" value="<?=$data['gasket']['price']?>" class="form-control"/>
+    </div>
+
+
+
+
+    <input type="submit" class="blue-btn"/>
+
+</form>

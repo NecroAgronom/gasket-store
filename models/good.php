@@ -41,6 +41,25 @@ Class Good extends Model{
 
     }
 
+    public function getGaskets(){
+
+        $sql = 'select * from gaskets';
+        return $this->db->query($sql);
+
+    }
+
+    public function getById($id){
+        $id = (int)$id;
+        $sql = "select * from goods where id = '{$id}' limit 1";
+        $result = $this->db->query($sql);
+
+        if(isset($result[0])){
+            return $result[0];
+        } else {
+            return null;
+        }
+    }
+
     public function getByTurbo($turbo){
         $turbo = $this->db->escape($turbo);
         $sql = "select * from goods where turbo = '{$turbo}' ";
@@ -80,6 +99,125 @@ Class Good extends Model{
         } else {
             return null;
         }
+    }
+
+
+    public function save($data, $id = null ){
+        if( !isset($data['manufactor']) || !isset($data['turbo']) || !isset($data['gasket_kit']) || !isset($data['img_src']) || !isset($data['price']) || !isset($data['oil_in']) || !isset($data['oil_out']) || !isset($data['gas_in']) || !isset($data['gas_out']) ){
+            return false;
+        }
+
+        $id = (int)$id;
+        $manufactor = $this->db->escape($data['manufactor']); $manufactor = trim($manufactor);
+        $turbo = $this->db->escape($data['turbo']); $turbo = trim($turbo);
+        $gasket_kit = $this->db->escape($data['gasket_kit']); $gasket_kit = trim($gasket_kit);
+        $img_src = $this->db->escape($data['img_src']); $img_src = trim($img_src);
+        $price = $this->db->escape($data['price']); $price = trim($price);
+        $oil_in = $this->db->escape($data['oil_in']); $oil_in = trim($oil_in);
+        $oil_out = $this->db->escape($data['oil_out']); $oil_out = trim($oil_out);
+        $gas_in = $this->db->escape($data['gas_in']); $gas_in = trim($gas_in);
+        $gas_out = $this->db->escape($data['gas_out']); $gas_out = trim($gas_out);
+
+
+        if( !$id ){
+            //adding new record
+            $sql = "
+            insert into goods
+            set manufactor = '{$manufactor}',
+                turbo = '{$turbo}',
+                gasket_kit = '{$gasket_kit}',
+                img_src = '{$img_src}',
+                price = '{$price}',
+                oil_in = '{$oil_in}',
+                oli_out = '{$oil_out}',
+                gas_in = '{$gas_in}',
+                gas_out = '{$gas_out}'
+            ";
+        } else {
+            // updating existing record
+            $sql = "
+            update goods
+            set manufactor = '{$manufactor}',
+                turbo = '{$turbo}',
+                gasket_kit = '{$gasket_kit}',
+                img_src = '{$img_src}',
+                price = '{$price}',
+                oil_in = '{$oil_in}',
+                oli_out = '{$oil_out}',
+                gas_in = '{$gas_in}',
+                gas_out = '{$gas_out}'
+            WHERE id = {$id}
+            ";
+        }
+
+        return $this->db->query($sql);
+
+    }
+
+
+    public function delete($id){
+
+        $id = (int)$id;
+        $sql = "delete from goods WHERE id = '{$id}'";
+        return $this->db->query($sql);
+
+    }
+
+
+
+    public function getGasketById($id){
+        $id = (int)$id;
+        $sql = "select * from gaskets where id = '{$id}' limit 1";
+        $result = $this->db->query($sql);
+
+        if(isset($result[0])){
+            return $result[0];
+        } else {
+            return null;
+        }
+    }
+
+    public function deleteGasket($id){
+
+        $id = (int)$id;
+        $sql = "delete from gaskets WHERE id = '{$id}'";
+        return $this->db->query($sql);
+
+    }
+
+    public function saveGasket($data, $id = null ){
+        if( !isset($data['gasket']) || !isset($data['quant'])){
+            return false;
+        }
+
+        $id = (int)$id;
+        $gasket = $this->db->escape($data['gasket']); $gasket = trim($gasket);
+        $price = $this->db->escape($data['price']); $price = trim($price);
+        $quant = $this->db->escape($data['quant']); $quant = trim($quant);
+
+
+
+        if( !$id ){
+            //adding new record
+            $sql = "
+            insert into gaskets
+            set gasket = '{$gasket}',
+                price = '{$price}',
+                quant = '{$quant}'
+            ";
+        } else {
+            // updating existing record
+            $sql = "
+            update gaskets
+            set gasket = '{$gasket}',
+                price = '{$price}',
+                quant = '{$quant}'
+            WHERE id = {$id}
+            ";
+        }
+
+        return $this->db->query($sql);
+
     }
 
 

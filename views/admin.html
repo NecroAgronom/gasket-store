@@ -2,14 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge" >
+    <meta name="viewport" content="width=device-width, initial-scale=1" >
     <title><?= Config::get('site_name') ?></title>
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/admin.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="css/ie.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
 </head>
 <body>
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -27,14 +34,22 @@
                 <li><a <?php if(App::getRouter()->getController() == 'contacts'){?> class="active" <?php } ?>href="/admin/contacts">
                     Contact us </a></li>
 
-                <li><a href="/admin/users/logout"><button class = "btn btn-success">Logout</button></a> </li>
+                <li><a <?php if(App::getRouter()->getController() == 'checkout'){?> class="active" <?php } ?>href="/admin/checkout">
+                    Orders </a></li>
+
+                <li><a <?php if(App::getRouter()->getController() == 'goods'){?> class="active" <?php } ?>href="/admin/goods">
+                    Goods </a></li>
+
+                <li><a href="/admin/users/logout"><button class="orange-btn">Logout</button></a> </li>
             </ul>
             <?php } ?>
         </div>
     </div>
 </nav>
 
-<div class="container">
+<br><br><br><br>
+
+<div class="container" style="margin-left: 4%">
 
     <div class="starter-template">
 
@@ -60,6 +75,8 @@
 
 
 
-
+<!--[if lte IE 9]>
+<script src="js/placeholder.min.js"></script>
+<![endif]-->
 </body>
 </html>

@@ -1,0 +1,143 @@
+<section id="checkout" class="sect container cf" xmlns="http://www.w3.org/1999/html">
+
+    <h1 class="lined">Оформление заказа:</h1>
+
+<div class="col-md-6" >
+
+
+
+
+<form name="order" action="" method="post" style="width: 100%;" onsubmit="return validate_order()">
+    <hr  id="checkout-target">
+    <p><span class="t-1 " ><span class="or-span">I</span> Контактные данные</span></p><hr class="hr-a" >
+    <div class="form-group">
+    <label for="name"  style="font-weight: 300;">Ваше Имя и Фамилия*</label>
+    <input type="text" name="name" id="name" maxlength="40" style="width: 80%;" class="form-control"><span id="namef" class="spanf"></span>
+    </div>
+    <div class="form-group">
+    <label for="phone" style="font-weight: 300;">Ваш номер телефона*</label>
+    <input type="text" name="phone" id="phone" maxlength="12" style="width: 80%;" class="form-control"><span id="phonef" class="spanf"></span>
+    </div>
+    <div class="form-group">
+    <label for="email" style="font-weight: 300;">Ваш адрес електронной почты*</label>
+    <input type="text" name="email" id="email" maxlength="30" style="width: 80%;" class="form-control"><span id="emailf" class="spanf"></span>
+    </div>
+
+    <hr  id="target-2">
+
+    <p><span class="t-1" ><span class="or-span">II</span> Доставка и оплата</span></p>
+     <hr class="hr-a">
+     <span class="t-2" >Доставка</span> <a class="info" onclick="open_del();">i</a><br><br>
+
+
+    <div class="option-group">
+    <input type="radio" checked name="delivery" id='samovivoz' onclick="hideElement(document.getElementById('nova_poshta_p')); showElement(document.getElementById('samovivoz_p'))" value="samovivoz">
+    <label for="samovivoz" style="font-weight: 300;"> Самовывоз по Киеву </label>
+
+    <p id="samovivoz_p" style="margin-left: 2%;">
+        Адрес нашего склада: <span style="font-weight: 600;">пр. Палладина 32-Б </span>
+
+    </p>
+    </div>
+
+
+    <div class="option-group">
+
+    <input type="radio" name="delivery"   onclick="showElement(document.getElementById('nova_poshta_p')); hideElement(document.getElementById('samovivoz_p'))" id='nova_poshta_radio' value="nova_poshta"/>
+        <label for="nova_poshta_radio" style="font-weight: 300;"> Доставка Новой Почтой</label>
+
+
+
+
+    <p id="nova_poshta_p" style="margin-left: 2%;">
+        <label for="city" style="font-weight: 300;">      Город* </label> <input onclick="" type="text" id="city" name="city" class="form-control-inline" style="width: 40%; margin-left: 56px;" maxlength="50"><br><span id="cityf" class="spanf"></span><br>
+        <label for="dept" style="font-weight: 300;">№ отделения*</label> <input style="width: 40%; margin-left: 7px" maxlength="3" type="text" name="dept" class="form-control-inline" id="dept"><br><span id="deptf" class="spanf"></span><br>
+        Ближайшее отделение можно узнать <a href="https://novaposhta.ua/ru/office" target="_blank"> здесь</a><br>
+    </p>
+    </div>
+            <hr class="hr-a">
+    <span  class="t-2" >Оплата</span> <a class="info" onclick="open_pay();">i</a><br><br>
+
+
+<div class="option-group">
+    <input type="radio" checked name="payment" id="nal" value="nal">
+    <label for="nal" style="font-weight: 300;"> Наличными </label>
+</div>
+
+            <div class="option-group">
+    <input type="radio" name="payment" id="beznal" value="beznal">
+    <label for="beznal" style="font-weight: 300;"> Безналичными </label>
+</div>
+
+    <div class="option-group">
+    <input type="radio" name="payment" id="karta" value="karta">
+    <label for="karta" style="font-weight: 300;"> Visa / MasterCard </label>
+    </div>
+        <hr >
+
+
+<div class="form-group">
+    <label for="comm" style="font-weight: 300;"> Комментарий к заказу </label> <br>
+    <textarea name="comment" maxlength="280" id="comm" class="form-control" style="width:100%; height: 80px;"></textarea>
+</div>
+    <input type="hidden" name='body' id="body" value="<?=$data['order']?>" >
+    <input type="hidden" name='sum' id="sum" value="<?=$data['sum']?>" >
+        <hr >
+
+    <div style="font-size: 12px; font-weight: 200;">поля, отмеченные ( * ), являются обязательными для заполнения </div><br>
+
+    <button class="blue-btn" id="checkout-sbm" type="submit" style="width: 100%; height: 50px;">Подтвердить оформление</button>
+</form>
+
+
+</div>
+
+<div class="col-md-6" >
+
+
+    <hr >
+     <p style="text-align: center; margin-bottom: 20px"><span class="t-1" >Ваш заказ <a href="/cart#st" style="margin-left: 15px;">редактировать </a></span></p>
+
+    <table class="table table-stripped" style="width : 100%">
+        <tr>
+            <td style="width: 50%">Комплект для турбокомпрессора:</td>
+            <td style="width: 50%">Количество</td>
+        </tr>
+        <?php foreach( $data['cart_goods'] as $item ){ ?>
+        <tr>
+            <td><?=$item['manufactor']?> <?=$item['turbo']?></td>
+            <td><?=Session::get('cart')[$item['id']]?></td>
+        </tr>
+        <?php } ?>
+        <tr>
+            <td><b>Общаяя стоимость</b></td>
+            <td><b><?=$data['sum']?> грн.</b></td>
+        </tr>
+    </table>
+
+
+</div>
+
+
+
+    <div id="modal_del" >
+        <span onclick="close_del();" id="modal_close_del">X</span>
+
+    </div>
+
+
+
+    <div id="modal_pay" >
+        <span onclick="close_pay();" id="modal_close_pay">X</span>
+
+    </div>
+
+
+
+
+
+    <div onclick="close_del(); close_pay();" id="overlay"></div>
+
+
+
+</section>

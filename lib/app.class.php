@@ -38,8 +38,7 @@ Class App{
                 $content = $view_object->render();
 
             } else {
-                throw new Exception( 'Method ' . $controller_method . ' of class ' . $controller_class . ' does not exist');
-                //Router::redirect('/');
+                Router::redirect('/static.html');
             }
         } else {
             Router::redirect('/');

@@ -3,14 +3,72 @@
 
 
 
-<?php foreach($data['pages'] as $page_data){ ?>
+<section id="sect1" class="sect container cf">
+    <h1 class="lined">Раздел 1</h1>
+
+    <p class="sub">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+
+    <div class="col-md-6 img">
+        <img src="img/img1.jpg" alt="About Us">
+
+    </div>
+
+    <div class="col-md-6 desc">
+        <h2>Подраздел</h2>
+
+        <p>
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et.
+            <br><br>
+            Accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue..
+            <br><br>
+            <em>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius.</em>
+        </p>
 
 
-<div style="margin : 30px; ">
-    <?php if( $page_data['is_published'] == 1 ){ ?>
-    <a href="/pages/view/<?=$page_data['alias']?>"><h3> <?=$page_data['title']?> </h3>
-    <?php } ?>
-</div>
+        <a href="/goods/"><button class="btn"> Перейти к Каталогу</button></a>
 
 
-<?php } ?>
+    </div>
+    </section>
+
+    <section id="sect2" class="container sect">
+        <h1 class="lined">Раздел 2</h1>
+        <p class="sub">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+
+        <ul class="list cf">
+            <li class="col-lg-3 col-sm-6">
+                <img src="img/i1.jpg" alt="Team">
+
+                <p class="person">Картинка / <span>1</span></p>
+                <p class="desc">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonu nibh euismod lorem ipsum dolor.</p>
+
+
+            </li>
+
+            <li class="col-lg-3 col-sm-6">
+                <img src="img/i2.jpg" alt="Team">
+
+                <p class="person">Картинка / <span>2</span></p>
+                <p class="desc">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonu nibh euismod lorem ipsum dolor.</p>
+
+
+            </li>
+
+            <li class="col-lg-3 col-sm-6">
+                <img src="img/i3.jpg" alt="Team">
+
+                <p class="person">Картинка / <span>3</span></p>
+                <p class="desc">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonu nibh euismod lorem ipsum dolor.</p>
+
+
+            </li>
+
+            <li class="col-lg-3 col-sm-6">
+                <img src="img/i4.jpg" alt="Team">
+                <p class="person">Картинка / <span>4</span></p>
+                <p class="desc">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonu nibh euismod lorem ipsum dolor.</p>
+
+
+            </li>
+        </ul>
+    </section>

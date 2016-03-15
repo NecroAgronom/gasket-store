@@ -26,7 +26,9 @@ Class View{
         }
 
         if ( !file_exists($path)){
+            //Router::redirect('/static.html');
             throw new Exception( 'Template not found in path ' . $path);
+
         }
 
         $this->data = $data;

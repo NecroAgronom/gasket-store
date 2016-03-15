@@ -32,18 +32,17 @@ Class Page extends Model{
         } else {
             return null;
         }
-
-
     }
 
     public function save($data, $id = null ){
-        if( !isset($data['alias']) || !isset($data['title']) || !isset($data['content']) ){
+        if( !isset($data['alias']) || !isset($data['title']) || !isset($data['content']) || !isset($data['annonce'])){
             return false;
         }
 
         $id = (int)$id;
-        $alias = $this->db->escape($data['alias']);
-        $title = $this->db->escape($data['title']);
+        $alias = $this->db->escape($data['alias']); $alias = trim($alias);
+        $title = $this->db->escape($data['title']); $title = trim($title);
+        $annonce = $this->db->escape($data['annonce']);
         $content = $this->db->escape($data['content']);
         $is_published = isset($data['is_published']) ? 1 : 0;
 
@@ -53,6 +52,7 @@ Class Page extends Model{
             insert into pages
             set alias = '{$alias}',
                 title = '{$title}',
+                annonce = '{$annonce}',
                 content = '{$content}',
                 is_published = '{$is_published}'
 
@@ -63,6 +63,7 @@ Class Page extends Model{
             update pages
             set alias = '{$alias}',
                 title = '{$title}',
+                annonce = '{$annonce}',
                 content = '{$content}',
                 is_published = '{$is_published}'
             WHERE id = {$id}

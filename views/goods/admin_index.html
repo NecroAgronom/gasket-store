@@ -1,0 +1,44 @@
+<h1 class="lined">Комплекты</h1>
+<a href="/admin/goods/gaskets">Прокладки>></a>
+
+<table class="table table-stripped" style="width : 100%">
+    <tr>
+        <td style="width: 3%">id</td>
+        <td style="width: 10%">Manufactor</td>
+        <td style="width: 12%">Turbo</td>
+        <td style="width: 10%">Gasket Kit</td>
+        <td style="width: 5%">Image src</td>
+        <td style="width: 8%">Price</td>
+        <td style="width: 10%">Oil In</td>
+        <td style="width: 10%">Oil Out</td>
+        <td style="width: 10%">Gas In</td>
+        <td style="width: 10%">Gas Out</td>
+        <td style="width: 12%"></td>
+    </tr>
+    <?php foreach( $data['goods'] as $item ){ ?>
+    <tr>
+        <td><?=$item['id']?></td>
+        <td><?=$item['manufactor']?></td>
+        <td><?=$item['turbo']?></td>
+        <td><?=$item['gasket_kit']?></td>
+        <td></td>
+        <td><?=$item['price']?></td>
+        <td><?=$item['oil_in']?></td>
+        <td><?=$item['oli_out']?></td>
+        <td><?=$item['gas_in']?></td>
+        <td><?=$item['gas_out']?></td>
+        <td>
+            <a href="/admin/goods/edit/<?=$item['id'] ?>">
+            <button class="orange-btn">E</button>
+        </a>
+            <a href="/admin/goods/delete/<?=$item['id'] ?>" onclick="return confirmDelete();">
+            <button class="orange-btn">X</button>
+        </a>
+        </td>
+    </tr>
+    <?php } ?>
+</table>
+
+<div>
+    <a href="/admin/goods/add"><button class="blue-btn">Добавить новый комплект</button></a>
+</div>

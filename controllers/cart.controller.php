@@ -2,7 +2,8 @@
 
 require_once(ROOT.DS.'models'.DS.'cart.php');
 
-Class CartController extends Controller{
+Class CartController extends Controller
+{
 
     public function __construct($data = array())
     {
@@ -10,33 +11,37 @@ Class CartController extends Controller{
         $this->model = new Cart();
     }
 
-    public function index(){
+    public function index()
+    {
 
         $this->data['cart_goods'] = $this->model->getCartGoods();
-        if (!empty($_SESSION['cart'])){
+        if (!empty($_SESSION['cart'])) {
             $sum = 0;
-            foreach( $this->data['cart_goods'] as $item){
+            foreach ($this->data['cart_goods'] as $item) {
                 $sum = $sum + ($item['price'] * $_SESSION['cart'][$item['id']]);
             }
-            $this->data['sum'] = number_format($sum,2);
+            $this->data['sum'] = number_format($sum, 2);
+            Session::set('sum',$this->data['sum']);
         }
 
     }
 
-    public function delete(){
-        if( isset($this->params[0])){
+    public function delete()
+    {
+        if (isset($this->params[0])) {
 
             $goods = Session::get('cart');
             unset($goods[$this->params[0]]);
-            Session::set('cart',$goods);
+            Session::set('cart', $goods);
 
         }
-        Router::redirect('/cart/');
+
+        Router::redirect('/cart#st');
     }
 
-    public function delete_all(){
+    public function delete_all()
+    {
         Session::delete('cart');
-        Router::redirect('/cart/');
+        Router::redirect('/cart#st');
     }
-
 }

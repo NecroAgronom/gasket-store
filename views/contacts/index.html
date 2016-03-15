@@ -1,8 +1,25 @@
-<h3><b>Contact us:</b></h3>
-<form action= "" method = "post">
-    <input type="text" class="form-control" name="name" placeholder="Имя"><br>
-    <input type="email" class="form-control" name="email" placeholder="Ел. Почта"><br>
-    <textarea class="form-control" name="message" placeholder="Ваше Сообщение"></textarea><br>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Отправить</button><br>
+<section id="contacts" class="sect container cf">
+
+<h1 class="lined">Контакты</h1>
+    <h2>Подраздел</h2>
+
+    <p>
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et.
+        <br><br>
+        Accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue..
+        <br><br>
+        <em>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius.</em>
+    </p>
+    <h2>Свяжитесь с нами:</h2>
+
+    <div id="cont-form">
+<form action="" name="message" method = "post" onsubmit="return validate_message()">
+    <input type="text" class="form-control" style="width: 400px;" name="name" placeholder="Имя"><span id="names" class="spanf"></span><br>
+    <input type="email"  class="form-control" style="width: 400px;" name="email" placeholder="Ел. Почта"><span id="emails" class="spanf"></span><br>
+    <textarea  name="message" class="form-control" style="width: 400px;" placeholder="Ваше Сообщение"></textarea><span id="messages" class="spanf"></span><br>
+    <button class="orange-btn" style="width: 400px;" type="submit">Отправить</button><br>
 
 </form>
+    </div>
+
+</section>

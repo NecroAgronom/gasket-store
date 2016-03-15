@@ -2,50 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge" >
+    <meta name="viewport" content="width=device-width, initial-scale=1" >
     <title><?= Config::get('site_name') ?></title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="/js/goods.js"></script>
+    <script src="/js/checkout.js"></script>
+    <script src="/js/check_info.js"></script>
+    <script src="/js/message.js"></script>
+    <script src="/js/cart.js"></script>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,700,300,600,400' rel='stylesheet' type='text/css'>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="css/ie.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
 
-            <a class="navbar-brand" href="/"><?= Config::get('site_name') ?></a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
+<div id="header" class="sect">
 
-                <li><a <?php if(App::getRouter()->getController() == 'pages'){?> class="active" <?php } ?> href="/pages/" >
-                    Pages
-                    </a>
-                </li>
+    <p class="container">
 
-                <li><a <?php if(App::getRouter()->getController() == 'goods'){?> class="active" <?php } ?> href="/goods/" >
-                    Goods
-                    </a>
-                </li>
+<a href="/">
+    <center><div id="logo">G ASKETS.COM</div></center>
+    <p><span>интернет-магазин прокладок для турбокомпрессоров</span></p>
 
-                <li><a <?php if(App::getRouter()->getController() == 'contacts'){?> class="active" <?php } ?>href="/contacts/">
-                    Contact us
-                    </a>
-                </li>
-                <li><a <?php if(App::getRouter()->getController() == 'cart'){?> class="active" <?php } ?>href="/cart/">
-                    Cart
-                    </a>
-                </li>
-            </ul>
-        </div>
+    </a>
+        <a name="st"></a>
+
+        <ul class="m-menu">
+            <li><a href="/" ><button class="btn <?php if(App::getRouter()->getController() == 'pages'){?> active <?php } ?>" >Главная</button></a></li>
+            <li><a href="/goods/#st" ><button class="btn <?php if(App::getRouter()->getController() == 'goods'){?> active <?php } ?>">Каталог</button></a></li>
+            <li><a href="/contacts/#st" ><button class="btn <?php if(App::getRouter()->getController() == 'contacts'){?> active <?php } ?>">Контакты</button></a></li>
+            <li><a href="/cart/#st" ><button class="btn <?php if(App::getRouter()->getController() == 'cart'){?> active <?php } ?>">Корзина</button></a></li>
+        </ul>
     </div>
-</nav>
+
+</div>
 
 <div class="container">
 
-    <div class="starter-template">
+    <div class="starter-template" >
 
 
         <?php if( Session::hasFlash() ){ ?>
@@ -65,10 +68,37 @@
 
 
 
+<footer>
+
+    <!-- BOTTOM SECTION -->
 
 
 
+    <!-- DOWNLINE SECTION-->
 
+    <div id="downline">
+        <div class="container cf">
+            <div class="logo-copy">
+
+
+                <p class="copy">2016 ® All Rights Reserved - GASKETS.COM.UA </p>
+            </div>
+
+            <ul class="b-menu">
+                <li><a href="/contacts#st">Contact Us</a></li>
+                <!--<li><a href="#">Ссылка 1</a></li>-->
+                <!--<li><a href="#">Ссылка 2</a></li>-->
+                <!--<li><a href="#">Ссылка 3</a></li>-->
+            </ul>
+        </div>
+    </div>
+
+</footer>
+
+
+<!--[if lte IE 9]>
+<script src="js/placeholder.min.js"></script>
+<![endif]-->
 
 </body>
 </html>

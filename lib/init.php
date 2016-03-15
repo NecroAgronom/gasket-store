@@ -20,8 +20,9 @@ function autoload1($class_name){
         require_once($model_path);
 
     } else {
-        throw new Exception ('Failed to load class ' . $class_name);
-        //Router::redirect('/');
+        Router::redirect('/static.html');
+
+
     }
 
 }

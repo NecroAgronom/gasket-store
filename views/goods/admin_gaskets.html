@@ -1,2 +1,32 @@
-<h3>Прокладки</h3>
+<h1 class="lined">Прокладки</h1><a href="/admin/goods/"><<Назад</a>
 
+<table class="table table-stripped" style="width : 100%">
+    <tr>
+        <td style="width: 5%">ID</td>
+        <td style="width: 10%">Прокладка</td>
+        <td style="width: 10%">Количество</td>
+        <td style="width: 10%">Цена</td>
+        <td style="width: 10%"></td>
+
+    </tr>
+    <?php foreach( $data['gaskets'] as $item ){ ?>
+    <tr>
+        <td><?=$item['id']?></td>
+        <td><?=$item['gasket']?></td>
+        <td><?=$item['quant']?></td>
+        <td><?=$item['price']?></td>
+        <td><a href="/admin/goods/gasket_edit/<?=$item['id'] ?>">
+            <button class="orange-btn">E</button>
+        </a>
+            <a href="/admin/goods/gasket_delete/<?=$item['id'] ?>" onclick="return confirmDelete();">
+                <button class="orange-btn">X</button>
+            </a></td>
+
+    </tr>
+    <?php } ?>
+</table>
+
+
+<div>
+    <a href="/admin/goods/gasket_add"><button class="blue-btn">Добавить новую</button></a>
+</div>

@@ -21,7 +21,7 @@ Class DB{
         $result = $this->connection->query($sql);
 
         if( mysqli_error($this->connection) ){
-            throw new Exception( mysqli_error($this->connection) );
+            Router::redirect('/static.html');
         }
 
         if( is_bool($result) ){

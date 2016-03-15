@@ -10,7 +10,7 @@ Class Lang{
         if(file_exists($lang_file_path)){
             self::$data = include($lang_file_path);
         } else {
-            throw new Exception('Lang file not found: ' . $lang_file_path);
+            Router::redirect('/static.html');
         }
 
     }

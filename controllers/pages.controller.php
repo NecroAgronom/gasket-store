@@ -12,11 +12,11 @@ Class PagesController extends Controller {
     public function index()
     {
 
-        //echo "Pages";
-       $this->data['pages'] = $this->model->getList();
+        $this->data['pages'] = $this->model->getList();
+
     }
 
-    public function view(){
+    /*public function view(){
 
         $params = App::getRouter()->getParams();
 
@@ -25,7 +25,7 @@ Class PagesController extends Controller {
             $this->data['page'] = $this->model->getByAlias($alias);
         }
 
-    }
+    }*/
 
     public function admin_index(){
 

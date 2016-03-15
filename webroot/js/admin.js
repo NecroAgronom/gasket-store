@@ -9,3 +9,10 @@ function confirmDelete(){
 }
 
 
+function confirmIsDone(){
+    if( confirm('Уверены?')){
+        return true;
+    } else {
+        return false;
+    }
+}

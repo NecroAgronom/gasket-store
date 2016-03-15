@@ -1,0 +1,184 @@
+<?php
+
+Class Checkout extends Model{
+
+    public function getCartGoods(){
+
+        $cart = Session::get('cart');
+
+        if( !empty($cart)){
+
+            $ids = array_keys(Session::get('cart'));
+            //$id = unserialize(Cookie::get('goods'));
+            $id_sql = implode(',',$ids);
+
+            $sql = "SELECT id, manufactor, turbo, gasket_kit FROM goods WHERE id IN ({$id_sql})";
+
+            return $this->db->query($sql);
+
+        } else {
+            return null;
+        }
+    }
+
+    public function saveOrder($data){
+
+        if( !isset($data['name']) || !isset($data['phone']) || !isset($data['email']) || !isset($data['delivery']) || !isset($data['payment']) || !isset($data["body"]) || !isset($data["sum"]) ){
+            return false;
+        }
+
+
+        $name = $this->db->escape($data['name']);
+        $phone = $this->db->escape($data['phone']);
+        $email = $this->db->escape($data['email']);
+        $delivery = $this->db->escape($data['delivery']);
+        //
+        if($delivery == 'nova_poshta'){
+            $delivery = 'Нова Пошта';
+        }
+
+        if($delivery == 'samovivoz'){
+            $delivery = 'Самовывоз';
+        }
+        //
+        $city = $this->db->escape($data['city']);
+        $dept = $this->db->escape($data['dept']);
+        $payment = $this->db->escape($data['payment']);
+        //
+        if($payment == 'nal'){
+            $payment = 'Нал.';
+        }
+
+        if($payment == 'beznal'){
+            $payment = 'Безнал.';
+        }
+
+        if($payment == 'karta'){
+            $payment = 'Карта';
+        }
+        //
+        $body = $this->db->escape($data["body"]);
+        $date = date("d.m.Y");
+        $time  = date("H:i");
+        $sum = $this->db->escape($data['sum']);
+        $comment = $this->db->escape($data['comment']);
+
+        $delivery = $delivery . " " . $city . ' ' . $dept;
+
+
+            //adding new record
+            $sql = "
+            insert into orders
+            set name = '{$name}',
+                phone = '{$phone}',
+                email = '{$email}',
+                delivery = '{$delivery}',
+                payment = '{$payment}',
+                body = '{$body}',
+                date = '{$date}',
+                time = '{$time}',
+                sum = '{$sum}',
+                comm = '{$comment}'
+             ";
+
+
+
+
+        return $this->db->query($sql);
+
+    }
+
+    public function resetQuantity($cart){
+
+        $ids = array_keys($cart);
+        $id_sql = implode(',',$ids);
+
+        $sql = "select id, oil_in, oli_out, gas_in, gas_out from goods WHERE id IN ({$id_sql})";
+        $gaskets = $this->db->query($sql);
+
+        foreach($gaskets as $good){
+
+            $id = $good['id'];
+            $oil_in = $good['oil_in'];
+            $oil_out = $good['oli_out'];
+            $gas_in = $good['gas_in'];
+            $gas_out = $good['gas_out'];
+
+            $sql_oi = "SELECT quant FROM `gaskets` where gasket = '{$oil_in}'";
+            $oiq = $this->db->query($sql_oi);
+            $sql_oo = "SELECT quant FROM `gaskets` where gasket = '{$oil_out}'";
+            $ooq = $this->db->query($sql_oo);
+            $sql_gi = "SELECT quant FROM `gaskets` where gasket = '{$gas_in}'";
+            $giq = $this->db->query($sql_gi);
+            $sql_go = "SELECT quant FROM `gaskets` where gasket = '{$gas_out}'";
+            $goq = $this->db->query($sql_go);
+            $c_quant = (int)$cart[$id];
+            $oiq = (int)$oiq['0']['quant'];
+            $ooq = (int)$ooq['0']['quant'];
+            $giq = (int)$giq['0']['quant'];
+            $goq = (int)$goq['0']['quant'];
+            $oiq = $oiq - $c_quant; $ooq = $ooq - $c_quant; $giq = $giq - $c_quant; $goq = $goq - $c_quant;
+            if ($oiq < 0){
+                $oiq = 0;
+            }
+            if ($ooq < 0){
+                $ooq = 0;
+            }
+            if ($giq < 0){
+                $giq = 0;
+            }
+            if ($goq < 0){
+                $goq = 0;
+            }
+
+
+            $sql = "update gaskets set quant = '{$oiq}' WHERE gasket = '{$oil_in}'";
+            $this->db->query($sql);
+            $sql = "update gaskets set quant = '{$ooq}' WHERE gasket = '{$oil_out}'";
+            $this->db->query($sql);
+            $sql = "update gaskets set quant = '{$giq}' WHERE gasket = '{$gas_in}'";
+            $this->db->query($sql);
+            $sql = "update gaskets set quant = '{$goq}' WHERE gasket = '{$gas_out}'";
+            $this->db->query($sql);
+
+        }
+
+    }
+
+    public function getOrdersList(){
+
+        $sql = 'select * from orders where 1';
+
+        return $this->db->query($sql);
+
+    }
+
+    public function getDoneOrdersList(){
+
+        $sql = 'select * from orders WHERE is_done = 1';
+
+        return $this->db->query($sql);
+
+    }
+
+    public function getUnDoneOrdersList(){
+
+        $sql = 'select * from orders WHERE is_done = 0';
+
+        return $this->db->query($sql);
+
+    }
+
+    public function is_done($id){
+        $id = (int)$id;
+        $sql = "
+            update orders
+            set is_done = 1
+            WHERE id = {$id}
+            ";
+
+        return $this->db->query($sql);
+    }
+
+
+}
