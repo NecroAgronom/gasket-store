@@ -14,8 +14,8 @@ Config::set('default_controller', 'pages');
 Config::set('default_action', 'index');
 
 Config::set('db.host','localhost');
-Config::set('db.user','root');
-Config::set('db.password','');
+Config::set('db.user','gaskets');
+Config::set('db.password','byxRAA8WpeSBDRm7');
 Config::set('db.db_name','mcv');
 
 Config::set('salt','n3cr0a5r0n0m1c4l');
