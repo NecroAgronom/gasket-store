@@ -101,6 +101,13 @@ Class Good extends Model{
         }
     }
 
+    public function getGasket($gasket){
+        $sql = "select * from gaskets where gasket = '{$gasket}'";
+        return $this->db->query($sql);
+
+    }
+
+
 
     public function save($data, $id = null ){
         if( !isset($data['manufactor']) || !isset($data['turbo']) || !isset($data['gasket_kit']) || !isset($data['img_src']) || !isset($data['price']) || !isset($data['oil_in']) || !isset($data['oil_out']) || !isset($data['gas_in']) || !isset($data['gas_out']) ){
@@ -190,6 +197,8 @@ Class Good extends Model{
             return false;
         }
 
+
+
         $id = (int)$id;
         $gasket = $this->db->escape($data['gasket']); $gasket = trim($gasket);
         $price = $this->db->escape($data['price']); $price = trim($price);
@@ -198,15 +207,25 @@ Class Good extends Model{
 
 
         if( !$id ){
-            //adding new record
-            $sql = "
+            if (is_null( $this->db->query("select * from gaskets where gasket = '{$gasket}'") or !($this->db->query("select * from gaskets where gasket = '{$gasket}'"))) ){
+                $sql = "
             insert into gaskets
             set gasket = '{$gasket}',
                 price = '{$price}',
                 quant = '{$quant}'
             ";
+            } else {
+                $sql = "
+            update gaskets
+            set gasket = '{$gasket}',
+                price = '{$price}',
+                quant = '{$quant}'
+            WHERE gasket = {$gasket}
+            ";
+            }
+
         } else {
-            // updating existing record
+
             $sql = "
             update gaskets
             set gasket = '{$gasket}',

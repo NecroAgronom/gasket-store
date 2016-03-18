@@ -39,7 +39,7 @@
             <div id="good-form<?=$item['id']?>">
                 <input type="hidden"  name="id" id="id<?=$item['id']?>" value="<?=$item['id']?>" >
                 <input type="hidden" name="total_quant" value="<?=$item['quant']?>">
-                <input type="number"   name="quant" id="quant<?=$item['id']?>" min="1" max="<?=$item['quant']?>"   value="1"> компл.
+                <input type="number"   style="width: 30px;" name="quant" id="quant<?=$item['id']?>" min="1" max="<?=$item['quant']?>"   value="1"> компл.
                 <input type="button" class="orange-btn"  value=" + В Корзину  " onclick="updateCart(document.getElementById('good-form<?=$item['id']?>'));">
 
             </div>
@@ -70,8 +70,9 @@
 
 <div id="modal_form">
     <p style="text-align: center; font-weight: 700; font-size: 22px">Добавлено в </p>
-    <a href="/cart#st"><button class="btn" style="width: 100%; height: 70px; font-weight: 700"> Корзину </button></a><br><br>
-    <p id="back" style="width: 21px; height: 21px; position: absolute;top: 150px; right: 150px; cursor: pointer">НАЗАД</p>
+
+    <a href="/cart#st"><button   id="cart_btn" style="width: 100%; height: 75px; font-weight: 700; "> КОРЗИНУ </button></a><br><br>
+    <p id="back" style="width: 21px; height: 21px; position: absolute;top: 150px; right: 150px; cursor: pointer">Назад</p>
 </div>
 <div id="overlay"></div>
 

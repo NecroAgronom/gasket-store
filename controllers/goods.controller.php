@@ -24,14 +24,14 @@ Class GoodsController extends Controller{
 
         } elseif (isset($_GET['page'])){
 
-            $goods = array_chunk($this->model->getGoods(),2);
+            $goods = array_chunk($this->model->getGoods(),5);
             $this->data['goods'] = $goods[$_GET['page']-1];
             $this->data['pages'] = array_keys($goods);
             $this->data['current'] = $_GET['page'];
 
         } else {
 
-            $goods = array_chunk($this->model->getGoods(),2);
+            $goods = array_chunk($this->model->getGoods(),5);
             $this->data['goods'] = $goods[0];
             $this->data['pages'] = array_keys($goods);
             $this->data['current'] = 1;
@@ -60,7 +60,7 @@ Class GoodsController extends Controller{
 
     public function search(){
         if( isset($_POST['turbo']) ){
-            Router::redirect('/goods?turbo=' . htmlspecialchars($_POST['turbo']). '#st');
+            Router::redirect('/goods?turbo=' . trim(htmlspecialchars($_POST['turbo'])). '#st');
             //$this->data['goods'] = $this->model->getByTurbo($_POST['turbo']);
         }
     }
@@ -135,6 +135,7 @@ Class GoodsController extends Controller{
                 Session::setFlash('Ошибка');
             }
             Router::redirect('/admin/goods/gaskets');
+
         }
     }
 

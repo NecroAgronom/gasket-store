@@ -1573,3 +1573,23 @@ footer {
     cursor: pointer;
     font-weight: bolder;
 }
+
+#cart_img {
+    background:  url(../img/basket_white.png) left no-repeat;
+    height: 80px;
+    width: 80px;
+}
+
+#cart_btn {
+    font-size: 16px;
+    color: #ff7200;
+    border: #ff7200 solid 15px;
+    background: inherit;
+    border-radius: 6px;
+    padding: 3px;
+}
+
+#cart_btn:hover {
+    color: white;
+    background: #ff7200;
+}
