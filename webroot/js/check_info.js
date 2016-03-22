@@ -1,7 +1,7 @@
 
 
 function open_del(){
-    event.preventDefault();
+    //event.preventDefault();
     $('#overlay').fadeIn(400,
         function(){
             $('#modal_del')
@@ -21,7 +21,7 @@ function close_del(){
 }
 
     function open_pay(){
-        event.preventDefault();
+        //event.preventDefault();
         $('#overlay').fadeIn(400,
             function(){
                 $('#modal_pay')

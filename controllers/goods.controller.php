@@ -12,6 +12,10 @@ Class GoodsController extends Controller{
 
     public function index(){
         $cart = Session::get('cart');
+        $this->data['sum'] = Session::get('sum');
+        $this->data['cart_goods'] = $this->model->getCartGoods();
+
+
 
         if(!isset($cart)){
             Session::set('cart',array());

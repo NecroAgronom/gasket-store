@@ -23,6 +23,8 @@ if (isset($_POST)){
             $goods[$_POST['id']] = $_POST['total_quant'];
         } elseif($goods[$_POST['id']] < 0){
             $goods[$_POST['id']] = 1;
+        } elseif( !is_numeric( $goods[$_POST['id']] ) ){
+            $goods[$_POST['id']] = 1;
         }
 
     } else {
@@ -31,6 +33,8 @@ if (isset($_POST)){
         if ($goods[$_POST['id']] > $_POST['total_quant']){
             $goods[$_POST['id']] = $_POST['total_quant'];
         } elseif($goods[$_POST['id']] < 0){
+            $goods[$_POST['id']] = 1;
+        } elseif( !is_numeric( $goods[$_POST['id']] ) ){
             $goods[$_POST['id']] = 1;
         }
     }

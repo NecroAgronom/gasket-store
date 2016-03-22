@@ -207,7 +207,8 @@ Class Good extends Model{
 
 
         if( !$id ){
-            if (is_null( $this->db->query("select * from gaskets where gasket = '{$gasket}'") or !($this->db->query("select * from gaskets where gasket = '{$gasket}'"))) ){
+            $gsk = $this->db->query("select * from gaskets where gasket = '{$gasket}'");
+            if ( is_null($gsk[0])) {
                 $sql = "
             insert into gaskets
             set gasket = '{$gasket}',
@@ -238,6 +239,28 @@ Class Good extends Model{
         return $this->db->query($sql);
 
     }
+
+
+    public function getCartGoods(){
+
+        $cart = Session::get('cart');
+
+        if( !empty($cart)){
+
+            $ids = array_keys(Session::get('cart'));
+            //$id = unserialize(Cookie::get('goods'));
+            $id_sql = implode(',',$ids);
+
+            $sql = "SELECT id, manufactor, turbo, gasket_kit FROM goods WHERE id IN ({$id_sql})";
+
+            return $this->db->query($sql);
+
+        } else {
+            return null;
+        }
+    }
+
+
 
 
 

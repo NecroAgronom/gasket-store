@@ -28,19 +28,19 @@
             <ul class="nav navbar-nav">
 
                 <li><a <?php if(App::getRouter()->getController() == 'pages'){?> class="active" <?php } ?> href="/admin/pages" >
-                    Pages
+                    Страницы
                     </a></li>
 
                 <li><a <?php if(App::getRouter()->getController() == 'contacts'){?> class="active" <?php } ?>href="/admin/contacts">
-                    Contact us </a></li>
+                    Сообщения </a></li>
 
                 <li><a <?php if(App::getRouter()->getController() == 'checkout'){?> class="active" <?php } ?>href="/admin/checkout">
-                    Orders </a></li>
+                    Заказы </a></li>
 
                 <li><a <?php if(App::getRouter()->getController() == 'goods'){?> class="active" <?php } ?>href="/admin/goods">
-                    Goods </a></li>
+                    Товары </a></li>
 
-                <li><a href="/admin/users/logout"><button class="orange-btn">Logout</button></a> </li>
+                <li><a href="/admin/users/logout"><button class="orange-btn" style="padding: 7px;">Logout</button></a> </li>
             </ul>
             <?php } ?>
         </div>
