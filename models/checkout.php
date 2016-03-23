@@ -147,7 +147,7 @@ Class Checkout extends Model{
 
     public function getOrdersList(){
 
-        $sql = 'select * from orders where 1';
+        $sql = 'select * from orders where is_done = 0 or is_done = 1';
 
         return $this->db->query($sql);
 
@@ -169,6 +169,14 @@ Class Checkout extends Model{
 
     }
 
+    public function getCanceledOrdersList(){
+
+        $sql = 'select * from orders WHERE is_done = 2';
+
+        return $this->db->query($sql);
+
+    }
+
     public function is_done($id){
         $id = (int)$id;
         $sql = "
@@ -178,6 +186,81 @@ Class Checkout extends Model{
             ";
 
         return $this->db->query($sql);
+    }
+
+
+    public function cancel($id){
+
+        $id = (int)$id;
+        $sql = "select * from orders WHERE id = '{$id}'";
+        $result = $this->db->query($sql);
+        $result = $result[0];
+        $body = explode(';',$result['body']);
+
+
+        foreach($body as &$item){
+            $kit_id = explode(')',$item);
+            $kit_id = $kit_id[0];
+            $kit_id =str_replace('(','',$kit_id);
+            $kit_id = (int)$kit_id;
+
+            $kit_quant = explode('-',$item);
+            $kit_quant = $kit_quant[1];
+            $kit_quant = (int)$kit_quant;
+
+            $item = array($kit_id,$kit_quant);
+
+        }
+
+
+
+        foreach($body as $item){
+            $sql = "select id, oil_in, oli_out, gas_in, gas_out from goods WHERE id IN ({$item['0']})";
+            $kit = $this->db->query($sql);
+            $kit = $kit[0];
+
+            $oil_in = $kit['oil_in'];
+            $oil_out = $kit['oli_out'];
+            $gas_in = $kit['gas_in'];
+            $gas_out = $kit['gas_out'];
+
+            $sql_oi = "SELECT quant FROM `gaskets` where gasket = '{$oil_in}'";
+            $oiq = $this->db->query($sql_oi);
+            $sql_oo = "SELECT quant FROM `gaskets` where gasket = '{$oil_out}'";
+            $ooq = $this->db->query($sql_oo);
+            $sql_gi = "SELECT quant FROM `gaskets` where gasket = '{$gas_in}'";
+            $giq = $this->db->query($sql_gi);
+            $sql_go = "SELECT quant FROM `gaskets` where gasket = '{$gas_out}'";
+            $goq = $this->db->query($sql_go);
+
+            $oiq = (int)$oiq['0']['quant'];
+            $ooq = (int)$ooq['0']['quant'];
+            $giq = (int)$giq['0']['quant'];
+            $goq = (int)$goq['0']['quant'];
+
+            $oiq = $oiq + $item['1'];
+            $giq = $giq + $item['1'];
+            $ooq = $ooq + $item['1'];
+            $goq = $goq + $item['1'];
+
+            $sql = "update gaskets set quant = '{$oiq}' WHERE gasket = '{$oil_in}'";
+            $this->db->query($sql);
+            $sql = "update gaskets set quant = '{$ooq}' WHERE gasket = '{$oil_out}'";
+            $this->db->query($sql);
+            $sql = "update gaskets set quant = '{$giq}' WHERE gasket = '{$gas_in}'";
+            $this->db->query($sql);
+            $sql = "update gaskets set quant = '{$goq}' WHERE gasket = '{$gas_out}'";
+            $this->db->query($sql);
+        }
+
+        $sql = "
+            update orders
+            set is_done = 2
+            WHERE id = {$id}
+            ";
+        $this->db->query($sql);
+        return $body;
+
     }
 
 

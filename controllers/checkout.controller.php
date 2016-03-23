@@ -21,7 +21,7 @@ Class CheckoutController extends Controller{
 
             $order = array();
             foreach ($this->data['cart_goods'] as $cart_good){
-               $order[] = '(' . $cart_good['id'] . ')' . $cart_good['gasket_kit'] . '-' . $cart[$cart_good['id']];
+               $order[] = '(' . trim($cart_good['id']) . ')' . trim($cart_good['gasket_kit']) . '-' . trim($cart[$cart_good['id']]);
             }
             $order = implode('; ',$order);
             //$order = $order . ' //' . Session::get('sum') . ' grn';
@@ -93,9 +93,19 @@ Class CheckoutController extends Controller{
 
     }
 
+    public function admin_canceled(){
+
+        $this->data['c_orders'] = array_reverse($this->model->getCanceledOrdersList());
+        $this->data['sum'] = 0;
+        foreach($this->data['c_orders'] as $order){
+            $this->data['sum'] = $this->data['sum'] + $order['sum'];
+        }
+
+    }
+
     public function admin_is_done(){
 
-        Router::redirect('/admin/checkout/undone');
+        //Router::redirect('/admin/checkout/undone');
 
         if( isset($this->params[0]) ){
             $result = $this->model->is_done($this->params[0]);
@@ -103,6 +113,18 @@ Class CheckoutController extends Controller{
 
         Router::redirect('/admin/checkout/undone');
     }
+
+    public function admin_cancel(){
+
+        if( isset($this->params[0]) ){
+            $result = $this->model->cancel($this->params[0]);
+        }
+
+        Router::redirect('/admin/checkout');
+
+    }
+
+
 
 }
 

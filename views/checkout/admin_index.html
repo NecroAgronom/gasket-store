@@ -1,19 +1,20 @@
 <h1 class="lined">Все Заказы ( на сумму <?=$data['sum']?> грн. )</h1>
-<a href="/admin/checkout/done"><button class="blue-btn">Выполненнные</button></a>  <a href="/admin/checkout/undone"><button class="blue-btn">Невыполненные</button></a><br><br>
+<a href="/admin/checkout/done"><button class="blue-btn">Выполненнные</button></a>  <a href="/admin/checkout/undone"><button class="blue-btn">Невыполненные</button></a> <a href="/admin/checkout/canceled"><button class="blue-btn">Отмененные</button></a><br><br>
 <table class="table table-stripped" style="width : 100%">
     <tr>
         <td style="width: 3%">ID</td>
-        <td style="width: 12%">Имя Фамилия</td>
-        <td style="width: 11%">Телефон</td>
-        <td style="width: 12%">Ел. Почта</td>
-        <td style="width: 14%">Доставка</td>
-        <td style="width: 11%">Оплата</td>
-        <td style="width: 15%">Заказ</td>
+        <td style="width: 10%">Имя Фамилия</td>
+        <td style="width: 10%">Телефон</td>
+        <td style="width: 10%">Ел. Почта</td>
+        <td style="width: 12%">Доставка</td>
+        <td style="width: 10%">Оплата</td>
+        <td style="width: 13%">Заказ</td>
         <td style="width: 2%">Дата</td>
         <td style="width: 2%">Время</td>
         <td style="width: 4%">Сумма</td>
         <td style="width: 12%">Комментарии</td>
-        <td style="width: 2%">?</td>
+        <td style="width: 2%">код</td>
+        <td style="width: 10%"></td>
     </tr>
     <?php foreach( $data['orders'] as $item ){ ?>
     <tr>
@@ -29,6 +30,9 @@
         <td><?=$item['sum']?></td>
         <td><?=$item['comm']?></td>
         <td><?=$item['is_done']?></td>
+        <td><a href="/admin/checkout/cancel/<?=$item['id'] ?>" onclick="return confirmDelete();">
+            <button class="orange-btn">Отмена</button>
+        </a></td>
     </tr>
     <?php } ?>
 </table>
