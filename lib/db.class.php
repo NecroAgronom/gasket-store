@@ -21,6 +21,8 @@ Class DB{
         $result = $this->connection->query($sql);
 
         if( mysqli_error($this->connection) ){
+            Session::delete('cart');
+            //throw new Exception('connection error');
             Router::redirect('/static.html');
         }
 

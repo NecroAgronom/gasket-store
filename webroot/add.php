@@ -7,15 +7,9 @@ define('ROOT', dirname(dirname(__FILE__)));
 define('VIEWS_PATH',ROOT.DS.'views');
 require_once(ROOT.DS.'lib'.DS.'init.php');
 
-if (isset($_POST)){
-
-
+if ( isset($_POST['id']) || isset($_POST['quant']) || isset($_POST['total_quant']) ){
 
     $goods = Session::get('cart');
-
-
-
-
 
     if( !isset($goods[$_POST['id']]) ){
         $goods[$_POST['id']] = $_POST['quant'];
