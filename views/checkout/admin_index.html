@@ -4,17 +4,17 @@
     <tr>
         <td style="width: 3%">ID</td>
         <td style="width: 10%">Имя Фамилия</td>
-        <td style="width: 10%">Телефон</td>
+        <td style="width: 9%">Телефон</td>
         <td style="width: 10%">Ел. Почта</td>
         <td style="width: 12%">Доставка</td>
         <td style="width: 10%">Оплата</td>
-        <td style="width: 13%">Заказ</td>
+        <td style="width: 10%">Заказ</td>
         <td style="width: 2%">Дата</td>
         <td style="width: 2%">Время</td>
         <td style="width: 4%">Сумма</td>
         <td style="width: 12%">Комментарии</td>
         <td style="width: 2%">код</td>
-        <td style="width: 10%"></td>
+        <td style="width: 13%"></td>
     </tr>
     <?php foreach( $data['orders'] as $item ){ ?>
     <tr>
@@ -30,9 +30,12 @@
         <td><?=$item['sum']?></td>
         <td><?=$item['comm']?></td>
         <td><?=$item['is_done']?></td>
-        <td><a href="/admin/checkout/cancel/<?=$item['id'] ?>" onclick="return confirmDelete();">
-            <button class="orange-btn">Отмена</button>
-        </a></td>
+        <td> <a href="/admin/checkout/print?order=<?=$item['id'] ?>">
+            <button class="blue-btn">Печать</button>
+        </a><a href="/admin/checkout/cancel/<?=$item['id'] ?>" onclick="return confirmDelete();">
+            <button class="orange-btn" style="width: 40px; padding: 7px; border-radius: 4px">X</button>
+        </a>
+        </td>
     </tr>
     <?php } ?>
 </table>

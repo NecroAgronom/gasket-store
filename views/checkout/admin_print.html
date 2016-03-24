@@ -1,0 +1,55 @@
+<button class="blue-btn" style="width: 40px" onclick="window.print();">P</button>
+
+
+ <h1 class="lined" style="font-size: 30px;">ТОВАРНАЯ НАКЛАДНАЯ № <span style="color: #ff7200; font-weight: 700"><?=$data['id']?></span></h1>
+
+ <div style="width: 80%; margin-left: 10%; ">
+
+    <div class="col-md-6">
+        <p style="font-size: 20px; color: black">
+            <b>И</b>мя и Фамилия : <?=$data['name']?><br>
+            <b>Т</b>елефон : <?=$data['phone']?><br>
+            <b>Е</b>л. Почта : <?=$data['email']?><br>
+            <b>Д</b>оставка : <?=$data['delivery']?><br>
+            <b>О</b>плата : <?=$data['payment']?><br>
+            <b>Д</b>ата : <?=$data['date']?><br>
+            <b>В</b>ремя : <?=$data['time']?><br>
+            <p style="border: 2px solid black; padding: 10px; height: 100px"><?=$data['comm']?></p><br>
+
+
+        </p>
+    </div>
+
+
+    <div class="col-md-6" >
+
+
+
+        <table class="table table-stripped" style="width : 100%; font-size: 20px ">
+            <tr>
+                <td style="width: 50%">Комплект </td>
+                <td style="width: 50%">Количество</td>
+            </tr>
+            <?php foreach( $data['body'] as $item ){ ?>
+            <tr>
+                <td><?=$item['0']?> </td>
+                <td><?=$item['1']?></td>
+            </tr>
+            <?php } ?>
+            <tr>
+                <td>Сумма </td>
+                <td><?=$data['sum']?> грн.</td>
+            </tr>
+
+        </table>
+
+
+    </div>
+
+ </div>
+
+
+
+
+
+

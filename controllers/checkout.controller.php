@@ -124,6 +124,16 @@ Class CheckoutController extends Controller{
 
     }
 
+    public function admin_print(){
+
+        if( isset($_GET['order']) ){
+            $this->data = $this->model->getById($_GET['order']);
+        } else {
+            Router::redirect('/admin/checkout');
+        }
+
+    }
+
 
 
 }

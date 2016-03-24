@@ -88,6 +88,36 @@ Class Checkout extends Model{
 
     }
 
+    public function getById($id){
+
+        $sql = "select * from orders where id = '{$id}'";
+        $result = $this->db->query($sql);
+
+        if(isset($result[0])){
+
+            $result = $result[0];
+            $body = explode(';',$result['body']);
+
+
+            foreach($body as &$item){
+                $kit_id = explode('-',$item);
+                $kit_id = $kit_id[0];
+
+                $kit_quant = explode('-',$item);
+                $kit_quant = $kit_quant[1];
+                $kit_quant = (int)$kit_quant;
+
+                $item = array($kit_id,$kit_quant);
+
+            }
+
+            $result['body'] = $body;
+            return $result;
+        } else {
+            return null;
+        }
+    }
+
     public function resetQuantity($cart){
 
         $ids = array_keys($cart);
