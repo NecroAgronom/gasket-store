@@ -4,8 +4,7 @@ Class GoodsController extends Controller{
 
 
 
-    public function __construct($data = array())
-    {
+    public function __construct( $data = array() ){
         parent::__construct($data);
         $this->model = new Good();
     }
@@ -176,6 +175,17 @@ Class GoodsController extends Controller{
 
         }
         Router::redirect('/admin/goods/gaskets');
+
+    }
+
+    public function gaskets(){
+
+        Router::redirect('/');
+        $cart = Session::get('cart');
+        if(!isset($cart)){
+            Session::set('cart',array());
+        }
+        $this->data['gaskets'] = $this->model->getGaskets();
 
     }
 

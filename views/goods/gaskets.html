@@ -1,0 +1,72 @@
+<section id="goods" class="sect container cf">
+
+    <h1 class="lined"> Прокладки</h1>
+
+
+    <form action="/goods/search" method="post">
+        <div style="margin-top: 30px">
+            <p>  Поиск по номеру прокладки:</p>
+            <input type="text"  class="search form-control" style="width: 30%; display: inline" name="turbo">
+            <input type="submit" class="orange-btn"  style="width: 10%" value="Найти">
+        </div>
+    </form>
+
+    <br><br><br>
+
+
+
+
+
+
+
+    <?php if( !is_null($data['gaskets']) ){ ?>
+    <table class="table table-striped good-table" style="width : 100%; ">
+        <tr>
+            <td style="width: 25%"><span>П</span>рокладка</td>
+            <td style="width: 20%"><span>К</span>ол-во на складе</td>
+            <td style="width: 20%"><span>Ц</span>ена</td>
+            <td style="width: 35%"></td>
+
+
+        </tr>
+        <?php foreach( $data['gaskets'] as $item ){?>
+        <tr>
+            <td>   <?=$item['gasket']?></td>
+            <td><b><?=$item['quant']?></b> компл.</td>
+            <td><?=$item['price']?> грн.</td>
+            <td><?php if($item['quant'] > 0){ ?>
+
+                <div id="good-form<?=$item['id']?>">
+                    <input type="hidden"  name="id" id="id<?=$item['gasket']?>" value="<?=$item['gasket']?>" >
+                    <input type="hidden" name="total_quant" value="<?=$item['quant']?>">
+                    <input type="number"   style="width: 50px;" name="quant" id="quant<?=$item['id']?>" min="1" max="<?=$item['quant']?>"   value="1"> шт.
+                    <input type="button" class="orange-btn"  value=" + В Корзину  " onclick="updateCart(document.getElementById('good-form<?=$item['id']?>'));">
+
+                </div>
+                <?php } else { ?> <b>Нет в наличии</b> <?php } ?></td>
+        </tr>
+        <?php } }?>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="modal_form">
+        <p style="text-align: center;  font-size: 28px; font-weight: 600; margin-top: 5px;">Добавлено в <a id="close1" href="/cart#st">Корзину</a></p>
+        <hr >
+
+
+        <p id="back" style="font-size: 18px; color: #ff7200; position: absolute;top: 115px; right: 155px; cursor: pointer"><<Продолжить покупки</p>
+    </div>
+    <div id="overlay"></div>
+
+
+</section>
