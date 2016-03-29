@@ -3,7 +3,7 @@
     <h1 class="lined"> Прокладки</h1>
 
 
-    <form action="/goods/search" method="post">
+    <form action="/goods/searchgaskets" method="post">
         <div style="margin-top: 30px">
             <p>  Поиск по номеру прокладки:</p>
             <input type="text"  class="search form-control" style="width: 30%; display: inline" name="turbo">
@@ -40,14 +40,13 @@
                     <input type="hidden"  name="id" id="id<?=$item['gasket']?>" value="<?=$item['gasket']?>" >
                     <input type="hidden" name="total_quant" value="<?=$item['quant']?>">
                     <input type="number"   style="width: 50px;" name="quant" id="quant<?=$item['id']?>" min="1" max="<?=$item['quant']?>"   value="1"> шт.
-                    <input type="button" class="orange-btn"  value=" + В Корзину  " onclick="updateCart(document.getElementById('good-form<?=$item['id']?>'));">
+                    <input type="button" class="orange-btn"  value=" + В Корзину  " onclick="updateCartG(document.getElementById('good-form<?=$item['id']?>'));">
 
                 </div>
                 <?php } else { ?> <b>Нет в наличии</b> <?php } ?></td>
         </tr>
         <?php } }?>
     </table>
-
 
 
 

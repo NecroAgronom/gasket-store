@@ -38,7 +38,7 @@ Class App{
                 $content = $view_object->render();
 
             } else {
-                Router::redirect('/static.html');
+                Router::redirect('/');
             }
         } else {
             Router::redirect('/');

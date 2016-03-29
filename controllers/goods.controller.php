@@ -68,6 +68,12 @@ Class GoodsController extends Controller{
         }
     }
 
+    public function searchgaskets(){
+        if( isset($_POST['turbo']) ){
+            Router::redirect('/goods/gaskets?turbo=' . trim(htmlspecialchars($_POST['turbo'])). '#st');
+        }
+    }
+
 
     public function admin_index(){
 
@@ -180,13 +186,17 @@ Class GoodsController extends Controller{
 
     public function gaskets(){
 
-        Router::redirect('/');
-        $cart = Session::get('cart');
-        if(!isset($cart)){
-            Session::set('cart',array());
-        }
-        $this->data['gaskets'] = $this->model->getGaskets();
 
+        //Router::redirect('/');
+        $cart_g = Session::get('cart_g');
+        if(!isset($cart_g)){
+            Session::set('cart_g',array());
+        }
+        if(isset($_GET['turbo'])){
+            $this->data['gaskets'] = $this->model->getGasketsByTurbo($_GET['turbo']);
+        } else {
+            $this->data['gaskets'] = $this->model->getGaskets();
+        }
     }
 
 }

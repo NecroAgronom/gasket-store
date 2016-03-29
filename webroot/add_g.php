@@ -9,8 +9,8 @@ require_once(ROOT.DS.'lib'.DS.'init.php');
 
 if ( isset($_POST['id']) && isset($_POST['quant']) && isset($_POST['total_quant']) ){
 
-    Session::delete('cart_g');
-    $goods = Session::get('cart');
+    Session::delete('cart');
+    $goods = Session::get('cart_g');
 
     if( !isset($goods[$_POST['id']]) ){
         $goods[$_POST['id']] = $_POST['quant'];
@@ -34,9 +34,7 @@ if ( isset($_POST['id']) && isset($_POST['quant']) && isset($_POST['total_quant'
         }
     }
 
-    Session::set('cart',$goods);
+    Session::set('cart_g',$goods);
 } else {
-    Router::redirect('/goods');
+    Router::redirect('/gaskets');
 }
-
-

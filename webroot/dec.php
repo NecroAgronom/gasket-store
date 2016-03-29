@@ -10,15 +10,26 @@ require_once(ROOT.DS.'lib'.DS.'init.php');
 if ( isset($_POST['id']) && isset($_POST['quant']) && isset($_POST['total_quant']) ){
 
     $cart = Session::get('cart');
+    $cart_g = Session::get('cart_g');
 
-    $id = $_POST['id'];
-    $quant = (int)$_POST['quant'];
-    if ($quant > 1){
-        $quant--;
-        $cart[$id] = $quant;
+    if( !empty($cart)){
+        $id = $_POST['id'];
+        $quant = (int)$_POST['quant'];
+        if ($quant > 1){
+            $quant--;
+            $cart[$id] = $quant;
+        }
+        Session::set('cart',$cart);
     }
-
-    Session::set('cart',$cart);
+    if( !empty($cart_g)){
+        $id = $_POST['id'];
+        $quant = (int)$_POST['quant'];
+        if ($quant > 1){
+            $quant--;
+            $cart_g[$id] = $quant;
+        }
+        Session::set('cart_g',$cart_g);
+    }
 } else {
     Router::redirect('/cart#st');
 }

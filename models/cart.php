@@ -8,10 +8,11 @@ Class Cart extends Model{
 
 
         $cart = Session::get('cart');
+        $cart_g = Session::get('cart_g');
 
         if( !empty($cart)){
 
-            $ids = array_keys(Session::get('cart'));
+            $ids = array_keys($cart);
             //$id = unserialize(Cookie::get('goods'));
             $id_sql = implode(',',$ids);
 
@@ -47,6 +48,27 @@ Class Cart extends Model{
                 }
                 $good['quant'] = $quant;
                 $goods[$i] = $good;
+            }
+
+            return $goods;
+
+        } elseif( !empty($cart_g)) {
+
+            $ids = array_keys($cart_g);
+            foreach( $ids as &$item ){
+                $item = "'" . $item . "'";
+            }
+            $id_sql = implode(',',$ids);
+            $sql = "select * from gaskets where gasket in ({$id_sql})";
+            $goods =  $this->db->query($sql);
+            for($i = 0; $i < count($goods); $i++){
+                $good = $goods[$i];
+                $good['id'] = $good['gasket'];
+                $quant = $good['quant'];
+                $quant = (int)$quant;
+                $good['quant'] = $quant;
+                $goods[$i] = $good;
+
             }
 
             return $goods;

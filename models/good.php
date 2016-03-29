@@ -48,6 +48,19 @@ Class Good extends Model{
 
     }
 
+    public function getGasketsByTurbo($turbo){
+        $sql = "select oil_in, oli_out, gas_in, gas_out from goods WHERE turbo = '{$turbo}'";
+        $result = $this->db->query($sql);
+        $oil_in = $result[0]["oil_in"];
+        $oil_out = $result[0]["oli_out"];
+        $gas_in = $result[0]["gas_in"];
+        $gas_out = $result[0]["gas_out"];
+
+        $sql = "select * from gaskets WHERE gasket IN ('{$oil_in}','{$oil_out}','{$gas_in}','{$gas_out}')";
+        return $this->db->query($sql);
+
+    }
+
     public function getById($id){
         $id = (int)$id;
         $sql = "select * from goods where id = '{$id}' limit 1";
@@ -193,7 +206,7 @@ Class Good extends Model{
     }
 
     public function saveGasket($data, $id = null ){
-        if( !isset($data['gasket']) || !isset($data['quant'])){
+        if( !isset($data['gasket']) && !isset($data['quant'])){
             return false;
         }
 
@@ -221,7 +234,7 @@ Class Good extends Model{
             set gasket = '{$gasket}',
                 price = '{$price}',
                 quant = '{$quant}'
-            WHERE gasket = {$gasket}
+            WHERE gasket = '{$gasket}'
             ";
             }
 

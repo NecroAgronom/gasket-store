@@ -5,17 +5,37 @@ Class Checkout extends Model{
     public function getCartGoods(){
 
         $cart = Session::get('cart');
+        $cart_g = Session::get('cart_g');
 
-        if( !empty($cart)){
+        if( !empty($cart)) {
 
             $ids = array_keys(Session::get('cart'));
             //$id = unserialize(Cookie::get('goods'));
-            $id_sql = implode(',',$ids);
+            $id_sql = implode(',', $ids);
 
             $sql = "SELECT id, manufactor, turbo, gasket_kit FROM goods WHERE id IN ({$id_sql})";
 
             return $this->db->query($sql);
+        } elseif( !empty($cart_g)){
 
+            $ids = array_keys($cart_g);
+            foreach( $ids as &$item ){
+                $item = "'" . $item . "'";
+            }
+            $id_sql = implode(',',$ids);
+            $sql = "select * from gaskets where gasket in ({$id_sql})";
+            $goods =  $this->db->query($sql);
+            for($i = 0; $i < count($goods); $i++){
+                $good = $goods[$i];
+                $good['id'] = $good['gasket'];
+                $quant = $good['quant'];
+                $quant = (int)$quant;
+                $good['quant'] = $quant;
+                $goods[$i] = $good;
+
+            }
+
+            return $goods;
         } else {
             return null;
         }
@@ -62,6 +82,7 @@ Class Checkout extends Model{
         $time  = date("H:i");
         $sum = $this->db->escape($data['sum']);
         $comment = $this->db->escape($data['comment']);
+        $is_done = $this->db->escape($data['is_done']);
 
         $delivery = $delivery . " " . $city . ' ' . $dept;
 
@@ -78,7 +99,8 @@ Class Checkout extends Model{
                 date = '{$date}',
                 time = '{$time}',
                 sum = '{$sum}',
-                comm = '{$comment}'
+                comm = '{$comment}',
+                is_done = '{$is_done}'
              ";
 
 
@@ -96,7 +118,7 @@ Class Checkout extends Model{
         if(isset($result[0])){
 
             $result = $result[0];
-            $body = explode(';',$result['body']);
+            /*$body = explode(';',$result['body']);
 
 
             foreach($body as &$item){
@@ -111,7 +133,7 @@ Class Checkout extends Model{
 
             }
 
-            $result['body'] = $body;
+            $result['body'] = $body;*/
             return $result;
         } else {
             return null;
@@ -175,9 +197,30 @@ Class Checkout extends Model{
 
     }
 
+    public function resetGasketQuantity($cart_g){
+        $ids = array_keys($cart_g);
+        foreach( $ids as $gasket ){
+            $sql = "SELECT quant FROM `gaskets` where gasket = '{$gasket}'";
+            $quant = $this->db->query($sql);
+            $quant = (int)$quant[0]['quant'];
+            $c_quant = (int)$cart_g[$gasket];
+            $quant = $quant - $c_quant;
+            $sql = "update gaskets set quant = '{$quant}' WHERE gasket = '{$gasket}'";
+            $this->db->query($sql);
+        }
+    }
+
     public function getOrdersList(){
 
-        $sql = 'select * from orders where is_done = 0 or is_done = 1';
+        $sql = 'select * from orders where is_done = 0 or is_done = 1 or is_done = 3';
+
+        return $this->db->query($sql);
+
+    }
+
+    public function getGasketOrdersList(){
+
+        $sql = 'select * from orders where is_done = 3';
 
         return $this->db->query($sql);
 
@@ -225,62 +268,92 @@ Class Checkout extends Model{
         $sql = "select * from orders WHERE id = '{$id}'";
         $result = $this->db->query($sql);
         $result = $result[0];
-        $body = explode(';',$result['body']);
+        if( substr_count($result['body'], '(') != 0){
+
+            $body = explode(';',$result['body']);
 
 
-        foreach($body as &$item){
-            $kit_id = explode(')',$item);
-            $kit_id = $kit_id[0];
-            $kit_id =str_replace('(','',$kit_id);
-            $kit_id = (int)$kit_id;
+            foreach($body as &$item){
+                $kit_id = explode(')',$item);
+                $kit_id = $kit_id[0];
+                $kit_id =str_replace('(','',$kit_id);
+                $kit_id = (int)$kit_id;
 
-            $kit_quant = explode('-',$item);
-            $kit_quant = $kit_quant[1];
-            $kit_quant = (int)$kit_quant;
+                $kit_quant = explode('-',$item);
+                $kit_quant = $kit_quant[1];
+                $kit_quant = (int)$kit_quant;
 
-            $item = array($kit_id,$kit_quant);
+                $item = array($kit_id,$kit_quant);
 
-        }
+            }
 
 
 
-        foreach($body as $item){
-            $sql = "select id, oil_in, oli_out, gas_in, gas_out from goods WHERE id IN ({$item['0']})";
-            $kit = $this->db->query($sql);
-            $kit = $kit[0];
+            foreach($body as $item){
+                $sql = "select id, oil_in, oli_out, gas_in, gas_out from goods WHERE id IN ({$item['0']})";
+                $kit = $this->db->query($sql);
+                $kit = $kit[0];
 
-            $oil_in = $kit['oil_in'];
-            $oil_out = $kit['oli_out'];
-            $gas_in = $kit['gas_in'];
-            $gas_out = $kit['gas_out'];
+                $oil_in = $kit['oil_in'];
+                $oil_out = $kit['oli_out'];
+                $gas_in = $kit['gas_in'];
+                $gas_out = $kit['gas_out'];
 
-            $sql_oi = "SELECT quant FROM `gaskets` where gasket = '{$oil_in}'";
-            $oiq = $this->db->query($sql_oi);
-            $sql_oo = "SELECT quant FROM `gaskets` where gasket = '{$oil_out}'";
-            $ooq = $this->db->query($sql_oo);
-            $sql_gi = "SELECT quant FROM `gaskets` where gasket = '{$gas_in}'";
-            $giq = $this->db->query($sql_gi);
-            $sql_go = "SELECT quant FROM `gaskets` where gasket = '{$gas_out}'";
-            $goq = $this->db->query($sql_go);
+                $sql_oi = "SELECT quant FROM `gaskets` where gasket = '{$oil_in}'";
+                $oiq = $this->db->query($sql_oi);
+                $sql_oo = "SELECT quant FROM `gaskets` where gasket = '{$oil_out}'";
+                $ooq = $this->db->query($sql_oo);
+                $sql_gi = "SELECT quant FROM `gaskets` where gasket = '{$gas_in}'";
+                $giq = $this->db->query($sql_gi);
+                $sql_go = "SELECT quant FROM `gaskets` where gasket = '{$gas_out}'";
+                $goq = $this->db->query($sql_go);
 
-            $oiq = (int)$oiq['0']['quant'];
-            $ooq = (int)$ooq['0']['quant'];
-            $giq = (int)$giq['0']['quant'];
-            $goq = (int)$goq['0']['quant'];
+                $oiq = (int)$oiq['0']['quant'];
+                $ooq = (int)$ooq['0']['quant'];
+                $giq = (int)$giq['0']['quant'];
+                $goq = (int)$goq['0']['quant'];
 
-            $oiq = $oiq + $item['1'];
-            $giq = $giq + $item['1'];
-            $ooq = $ooq + $item['1'];
-            $goq = $goq + $item['1'];
+                $oiq = $oiq + $item['1'];
+                $giq = $giq + $item['1'];
+                $ooq = $ooq + $item['1'];
+                $goq = $goq + $item['1'];
 
-            $sql = "update gaskets set quant = '{$oiq}' WHERE gasket = '{$oil_in}'";
-            $this->db->query($sql);
-            $sql = "update gaskets set quant = '{$ooq}' WHERE gasket = '{$oil_out}'";
-            $this->db->query($sql);
-            $sql = "update gaskets set quant = '{$giq}' WHERE gasket = '{$gas_in}'";
-            $this->db->query($sql);
-            $sql = "update gaskets set quant = '{$goq}' WHERE gasket = '{$gas_out}'";
-            $this->db->query($sql);
+                $sql = "update gaskets set quant = '{$oiq}' WHERE gasket = '{$oil_in}'";
+                $this->db->query($sql);
+                $sql = "update gaskets set quant = '{$ooq}' WHERE gasket = '{$oil_out}'";
+                $this->db->query($sql);
+                $sql = "update gaskets set quant = '{$giq}' WHERE gasket = '{$gas_in}'";
+                $this->db->query($sql);
+                $sql = "update gaskets set quant = '{$goq}' WHERE gasket = '{$gas_out}'";
+                $this->db->query($sql);
+
+            }
+
+        } else {
+            $body = explode(';',$result['body']);
+
+
+            foreach($body as &$item){
+
+                $gasket = explode('-',$item);
+                $gasket_id = $gasket[0];
+                $gasket_quant = $gasket[1];
+                $gasket_quant = (int)$gasket_quant;
+
+                $item = array($gasket_id,$gasket_quant);
+
+            }
+
+            foreach($body as $item){
+
+                $sql = "select quant from gaskets where gasket = '{$item[0]}'";
+                $gasket = $this->db->query($sql);
+                $quant = (int)$gasket[0]['quant'];
+                $quant = $quant + $item[1];
+                $sql = "update gaskets set quant = '{$quant}' WHERE gasket = '{$$item[0]}'";
+                $this->db->query($sql);
+
+            }
         }
 
         $sql = "

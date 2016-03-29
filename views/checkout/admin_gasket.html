@@ -1,0 +1,41 @@
+<a href="/admin/checkout"><<Назад</a>
+<h3>Только прокладки ( на сумму <?=$data['sum']?> грн. )</h3>
+
+<table class="table table-stripped" style="width : 100%">
+    <tr>
+        <td style="width: 3%">ID</td>
+        <td style="width: 11%">Имя Фамилия</td>
+        <td style="width: 11%">Телефон</td>
+        <td style="width: 11%">Ел. Почта</td>
+        <td style="width: 11%">Доставка</td>
+        <td style="width: 10%">Оплата</td>
+        <td style="width: 15%">Заказ</td>
+        <td style="width: 2%">Дата</td>
+        <td style="width: 2%">Время</td>
+        <td style="width: 4%">Сумма</td>
+        <td style="width: 11%">Комментарии</td>
+        <td style="width: 4%"></td>
+
+    </tr>
+    <?php foreach( $data['g_orders'] as $item ){ ?>
+    <tr>
+        <td><?=$item['id']?></td>
+        <td><?=$item['name']?></td>
+        <td><?=$item['phone']?></td>
+        <td><?=$item['email']?></td>
+        <td><?=$item['delivery']?></td>
+        <td><?=$item['payment']?></td>
+        <td><?=$item['body']?></td>
+        <td><?=$item['date']?></td>
+        <td><?=$item['time']?></td>
+        <td><?=$item['sum']?></td>
+        <td><?=$item['comm']?></td>
+        <td>
+            <a href="/admin/checkout/is_done/<?=$item['id'] ?>" onclick="return confirmIsDone();">
+                <button class="orange-btn">вып.</button>
+            </a>
+        </td>
+
+    </tr>
+    <?php } ?>
+</table>

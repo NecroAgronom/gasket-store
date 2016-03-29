@@ -1,4 +1,4 @@
-<section id="cart" class="sect container cf">
+<section id="cart" class="sect container cf" style="width: 600px;">
 
 <h1 class="lined">Корзина</h1>
 
@@ -6,7 +6,7 @@
 
 
 
-<?php if( !is_null($data['cart_goods']) ){ ?>
+<?php if( !is_null($data['cart_goods'])){ ?>
 <p style="text-align: center; font-size: 22px"> Общая стоимость заказа - <b><?=$data['sum']?></b> грн. </p><br><br>
 <a href="/goods#st"><< Назад к Каталогу</a>
 <table class="table table-striped" style="width : 80%; font-size: 16px;">
@@ -20,19 +20,19 @@
     </tr>
     <?php foreach( $data['cart_goods'] as $item ){?>
     <tr>
-        <td><?=$item['manufactor']?> <?=$item['turbo']?></td>
+        <td><?=$item['manufactor']?> <?=$item['turbo']?><?=$item['gasket']?></td>
         <td><span id="dec-form<?=$item['id']?>">
             <input type="hidden"  name="id"  value="<?=$item['id']?>" >
-            <input type="hidden" name="quant" value="<?=Session::get('cart')[$item['id']]?>">
+            <input type="hidden" name="quant" value="<?php if(!$data['g']){ ?> <?=Session::get('cart')[$item['id']]?> <?php } else { ?> <?=Session::get('cart_g')[$item['id']]?> <?php } ?>">
             <input type="hidden" name="total_quant" value="<?=$item['quant']?>">
             <input type="button" class="q" style="padding-left: 12px; padding-right: 12px;" onclick="decQuant(document.getElementById('dec-form<?=$item['id']?>'));" value="-">
         </span>
 
-            <b style="font-size: 22px;"> <?=Session::get('cart')[$item['id']]?></b>
+            <b style="font-size: 22px;"><?php if(!$data['g']){ ?> <?=Session::get('cart')[$item['id']]?> <?php } else { ?> <?=Session::get('cart_g')[$item['id']]?> <?php } ?></b>
 
             <span id="inc-form<?=$item['id']?>">
             <input type="hidden"  name="id"  value="<?=$item['id']?>" >
-            <input type="hidden" name="quant" value="<?=Session::get('cart')[$item['id']]?>">
+            <input type="hidden" name="quant" value="<?php if(!$data['g']){ ?> <?=Session::get('cart')[$item['id']]?> <?php } else { ?> <?=Session::get('cart_g')[$item['id']]?> <?php } ?>">
             <input type="hidden" name="total_quant" value="<?=$item['quant']?>" >
             <input type="button" class="q" onclick="incQuant(document.getElementById('inc-form<?=$item['id']?>'));" value="+">
 
@@ -51,4 +51,13 @@
 <?php } else { ?> <p style="text-align: center"> <span style="font-size: 26px;">Тут пока пусто</span> <br> <br><a href="/goods#st"><button class="orange-btn" style="font-size: 18px;font-weight: 500; padding: 15px; width: 300px">ПЕРЕЙТИ К КАТАЛОГУ</button></a> </p> <?php } ?>
 
 
+
+
+
+
+<pre>
+<?php var_dump($data['cart_goods']); ?>
+    <?php var_dump(Session::get('cart')); ?>
+    <?php var_dump(Session::get('cart_g')); ?>
+</pre>
 </section>

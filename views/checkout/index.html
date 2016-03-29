@@ -82,6 +82,7 @@
 </div>
     <input type="hidden" name='body' id="body" value="<?=$data['order']?>" >
     <input type="hidden" name='sum' id="sum" value="<?=$data['sum']?>" >
+    <input type="hidden" name="is_done" value="<?=$data['code']?>">
         <hr >
 
     <div style="font-size: 12px; font-weight: 200;">поля, отмеченные ( * ), являются обязательными для заполнения </div><br>
@@ -105,8 +106,8 @@
         </tr>
         <?php foreach( $data['cart_goods'] as $item ){ ?>
         <tr>
-            <td><?=$item['manufactor']?> <?=$item['turbo']?></td>
-            <td><?=Session::get('cart')[$item['id']]?></td>
+            <td><?=$item['manufactor']?> <?=$item['turbo']?> <?=$item['gasket']?></td>
+            <td><?php if(!$data['g']){ ?> <?=Session::get('cart')[$item['id']]?> <?php } else { ?> <?=Session::get('cart_g')[$item['id']]?> <?php } ?></td>
         </tr>
         <?php } ?>
         <tr>
