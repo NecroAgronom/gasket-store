@@ -289,7 +289,7 @@ Class Checkout extends Model{
 
 
 
-            foreach($body as $item){
+            foreach($body as &$item){
                 $sql = "select id, oil_in, oli_out, gas_in, gas_out from goods WHERE id IN ({$item['0']})";
                 $kit = $this->db->query($sql);
                 $kit = $kit[0];
@@ -330,27 +330,35 @@ Class Checkout extends Model{
             }
 
         } else {
+
             $body = explode(';',$result['body']);
 
 
             foreach($body as &$item){
 
                 $gasket = explode('-',$item);
-                $gasket_id = $gasket[0];
-                $gasket_quant = $gasket[1];
+                $gasket_id = trim($gasket[0]);
+                $gasket_quant = trim($gasket[1]);
                 $gasket_quant = (int)$gasket_quant;
 
                 $item = array($gasket_id,$gasket_quant);
 
+
             }
 
-            foreach($body as $item){
+
+            foreach($body as &$item){
 
                 $sql = "select quant from gaskets where gasket = '{$item[0]}'";
                 $gasket = $this->db->query($sql);
+
+
+
                 $quant = (int)$gasket[0]['quant'];
+
                 $quant = $quant + $item[1];
-                $sql = "update gaskets set quant = '{$quant}' WHERE gasket = '{$$item[0]}'";
+
+                $sql = "update gaskets set quant = '{$quant}' WHERE gasket = '{$item[0]}'";
                 $this->db->query($sql);
 
             }

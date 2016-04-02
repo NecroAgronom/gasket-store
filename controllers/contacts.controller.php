@@ -10,7 +10,7 @@ Class ContactsController extends Controller{
 
     public function index(){
 
-        if( $_POST ){
+        if( $_POST['name'] && $_POST['email'] && $_POST['message']){
             if ($this->model->save($_POST)){
                 Session::setFlash("Спасибо! Ваше сообщение было отправлено");
             }
