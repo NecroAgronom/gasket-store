@@ -114,6 +114,19 @@ Class Good extends Model{
         }
     }
 
+    public function getByKit($kit){
+
+        $kit = $this->db->escape($kit);
+        $sql = "select * from goods where gasket_kit = '{$kit}'";
+        $result = $this->db->query($sql);
+        if( isset($result[0]) ){
+            return $result;
+        } else {
+            return null;
+        }
+
+    }
+
     public function getGasket($gasket){
         $sql = "select * from gaskets where gasket = '{$gasket}'";
         return $this->db->query($sql);

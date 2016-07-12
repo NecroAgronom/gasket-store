@@ -27,14 +27,14 @@ Class GoodsController extends Controller{
 
         } elseif (isset($_GET['page'])){
 
-            $goods = array_chunk($this->model->getGoods(),5);
+            $goods = array_chunk($this->model->getGoods(),15);
             $this->data['goods'] = $goods[$_GET['page']-1];
             $this->data['pages'] = array_keys($goods);
             $this->data['current'] = $_GET['page'];
 
         } else {
 
-            $goods = array_chunk($this->model->getGoods(),5);
+            $goods = array_chunk($this->model->getGoods(),15);
             $this->data['goods'] = $goods[0];
             $this->data['pages'] = array_keys($goods);
             $this->data['current'] = 1;
@@ -74,16 +74,55 @@ Class GoodsController extends Controller{
         }
     }
 
+    public function admin_search(){
+        if( isset($_POST['search']) and ($_POST['opt'] == 'turbo')){
+            Router::redirect('/admin/goods?turbo=' . trim(htmlspecialchars($_POST['search'])). '#st');
+            //$this->data['goods'] = $this->model->getByTurbo($_POST['turbo']);
+        }
+        if( isset($_POST['search']) and ($_POST['opt'] == 'kit')){
+            Router::redirect('/admin/goods?kit=' . trim(htmlspecialchars($_POST['search'])). '#st');
+            //$this->data['goods'] = $this->model->getByTurbo($_POST['turbo']);
+        }
+    }
+
+    public function admin_gasketsearch(){
+        if( isset($_POST['search']) and ($_POST['opt'] == 'turbo')){
+            Router::redirect('/admin/goods/gaskets?turbo=' . trim(htmlspecialchars($_POST['search'])). '#st');
+            //$this->data['goods'] = $this->model->getByTurbo($_POST['turbo']);
+        }
+        if( isset($_POST['search']) and ($_POST['opt'] == 'gasket')){
+            Router::redirect('/admin/goods/gaskets?gasket=' . trim(htmlspecialchars($_POST['search'])). '#st');
+            //$this->data['goods'] = $this->model->getByTurbo($_POST['turbo']);
+        }
+    }
+
 
     public function admin_index(){
 
-        $this->data['goods'] = $this->model->getGoods();
+        if( isset($_GET['turbo']) ){
+            $this->data['goods'] = $this->model->getByTurbo($_GET['turbo']);
+            $this->data['search'] = true;
+        } elseif( isset($_GET['kit'])){
+            $this->data['goods'] = $this->model->getByKit($_GET['kit']);
+            $this->data['search'] = true;
+        } else {
+            $this->data['goods'] = $this->model->getGoods();
+        }
 
     }
 
     public function admin_gaskets(){
 
-        $this->data['gaskets'] = $this->model->getGaskets();
+
+        if( isset($_GET['turbo']) ){
+            $this->data['gaskets'] = $this->model->getGasketsByTurbo($_GET['turbo']);
+            $this->data['search'] = true;
+        } elseif( isset($_GET['gasket'])){
+            $this->data['gaskets'] = $this->model->getGasket($_GET['gasket']);
+            $this->data['search'] = true;
+        } else {
+            $this->data['gaskets'] = $this->model->getGaskets();
+        }
 
     }
 
