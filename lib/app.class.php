@@ -19,6 +19,7 @@ Class App{
         Lang::load(self::$router->getLanguage());
 
         $controller_class = ucfirst(self::$router->getController() . 'Controller');
+        //получение метода контроллера
         $controller_method = strtolower(self::$router->getMethodPrefix() . self::$router->getAction());
 
 
